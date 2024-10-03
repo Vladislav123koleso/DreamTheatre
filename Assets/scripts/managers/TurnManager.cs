@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour // менеджер очередности ходов
 {
-    public static List<basePers> characters = new List<basePers>();
+    public List<basePers> characters = new List<basePers>();
     int currentTurnIndex = 0;
 
     private void Start()
     {
+
         // сортировка персонажей по скорости
         characters = characters.OrderByDescending(c => c.speed).ToList();
         
