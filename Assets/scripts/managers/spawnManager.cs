@@ -13,14 +13,35 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
 
+    public GameObject mainPers;
     private List<basePers> playerCharacters; // список персонажей игрока
 
     private void Start()
     {
         // «агружаем список персонажей из хаба
         playerCharacters = PlayerTeamSelection.selectedCharacters;
-        
-        SpawnPlayerCharacters(); //—павн персонажей игрока 
+        //если список пуст
+        if (playerCharacters == null || playerCharacters.Count == 0)
+        {
+            playerCharacters = new List<basePers>();
+
+            // ѕолучаем данные главного персонажа через его CharacterController
+            CharacterController mainCharacterController = mainPers.GetComponent<CharacterController>();
+            basePers mainCharacterData = new basePers(
+                mainCharacterController.characterName,
+                mainCharacterController.hp,
+                mainCharacterController.mp,
+                mainCharacterController.damage,
+                mainCharacterController.speed,
+                mainCharacterController.isPlayer
+            );
+
+            playerCharacters.Add(mainCharacterData); // ƒобавл€ем главного персонажа в список
+        }
+        else
+        {
+            SpawnPlayerCharacters(); //—павн персонажей игрока 
+        }
 
         SpawnEnemyCharacters(); // —равн врагов
     }
