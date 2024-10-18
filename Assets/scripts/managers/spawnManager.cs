@@ -38,10 +38,8 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
 
             playerCharacters.Add(mainCharacterData); // Добавляем главного персонажа в список
         }
-        else
-        {
-            SpawnPlayerCharacters(); //Спавн персонажей игрока 
-        }
+        
+        SpawnPlayerCharacters(); //Спавн персонажей игрока 
 
         SpawnEnemyCharacters(); // Сравн врагов
     }

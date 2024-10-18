@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     }
 
 
-    // Метод, который привязан к кнопке завершения хода игрока
+    // завершения хода персонажа (кнопка)
     public void OnEndPlayerTurnButton()
     {
         // Если сейчас ход игрока

@@ -634,7 +634,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HUI prod.
+  m_text: '... prod.
 
     presents....'
   m_isRightToLeft: 0
