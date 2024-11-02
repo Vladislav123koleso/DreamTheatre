@@ -26,16 +26,11 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             playerCharacters = new List<basePers>();
 
             // ѕолучаем данные главного персонажа через его CharacterController
-            CharacterController mainCharacterController = mainPers.GetComponent<CharacterController>();
-            basePers mainCharacterData = new basePers(
-                mainCharacterController.characterName,
-                mainCharacterController.hp,
-                mainCharacterController.mp,
-                mainCharacterController.damage,
-                mainCharacterController.speed,
-                mainCharacterController.isPlayer
-            );
-
+            basePers mainCharacterData = mainPers.GetComponent<CharacterController>().persData;
+            //deleteme
+            basePers newMainPers = new basePers("Enemy" + Random.Range(1, 100), Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), Random.Range(5, 60), false, false);
+            mainPers.GetComponent<CharacterController>().InitializeCharacter(newMainPers);
+            //
             playerCharacters.Add(mainCharacterData); // ƒобавл€ем главного персонажа в список
         }
         
@@ -64,7 +59,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             GameObject enemy = Instantiate(enemyPrefab, enemySpawnPoints[i].position, Quaternion.identity);
 
             // «десь задаем уникальные параметры дл€ врагов
-            //enemy.GetComponent<CharacterController>().InitializeCharacter(CreateRandomEnemy());
+            enemy.GetComponent<CharacterController>().InitializeCharacter(CreateRandomEnemy(i+1));
         }
     }
 
@@ -72,8 +67,8 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
 
     // ћетод дл€ создани€ врагов с случайными параметрами 
     // P.S. временно дл€ блокинга
-    basePers CreateRandomEnemy()
+    basePers CreateRandomEnemy(int numberEnemy)
     {
-        return new basePers("Enemy" + Random.Range(1, 100), Random.Range(40, 120), Random.Range(20, 300), Random.Range(5, 15), Random.Range(5, 60), false);
+        return new basePers("Enemy" + numberEnemy, Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), Random.Range(5, 60), false, false);
     }
 }

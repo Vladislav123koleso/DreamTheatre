@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448078b0bfbf8db438650d6106e11f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: enemy
   hp: 0
   mp: 0
   damage: 0
