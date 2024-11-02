@@ -8,14 +8,28 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public List<basePers> characters = new List<basePers>();
     int currentTurnIndex = 0;
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForSeconds(0.1f); // Короткая задержка, чтобы персонажи успели заспавниться
 
-        // сортировка персонажей по скорости
-        characters = characters.OrderByDescending(c => c.speed).ToList();
-        
+        InitializeCharacters();
         StartTurn();
     }
+    void InitializeCharacters()
+    {
+        // Получаем все объекты персонажей, находящихся на сцене
+        CharacterController[] allCharacters = FindObjectsOfType<CharacterController>();
+
+        // Добавляем каждого персонажа в список
+        foreach (var character in allCharacters)
+        {
+            characters.Add(character.persData);
+        }
+
+        // Сортировка персонажей по скорости
+        characters = characters.OrderByDescending(c => c.speed).ToList();
+    }
+    
 
     void StartTurn()
     {
