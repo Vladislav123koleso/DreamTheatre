@@ -52,7 +52,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             GameObject player = Instantiate(playerPrefab, playerSpawnPoints[i].position, Quaternion.identity);
             
             // Передаем данные персонажа в скрипт
-            player.GetComponent<CharacterController>().InitializeCharacter(playerCharacters[i]);
+            //player.GetComponent<CharacterController>().InitializeCharacter(playerCharacters[i]);
         }
     }
 
@@ -64,7 +64,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             GameObject enemy = Instantiate(enemyPrefab, enemySpawnPoints[i].position, Quaternion.identity);
 
             // Здесь задаем уникальные параметры для врагов
-            enemy.GetComponent<CharacterController>().InitializeCharacter(CreateRandomEnemy());
+            //enemy.GetComponent<CharacterController>().InitializeCharacter(CreateRandomEnemy());
         }
     }
 
