@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D;
 
 [Serializable]
 public class basePers
@@ -17,6 +18,8 @@ public class basePers
     public bool hasTurn;  // Показывает, чей это ход
     public bool isPlayer; // показывает что персонаж игрока
 
+    public Light2DBase persLight;
+
     public basePers(string name, int hp, int speed, int damage, int protection, bool hasTurn = false,bool isPlayer = false)
     {
         this.name = name; 
@@ -27,5 +30,14 @@ public class basePers
 
         this.hasTurn = false; 
         this.isPlayer = isPlayer; 
+    }
+
+
+    public void SetLight(bool isActive)
+    {
+        if (persLight != null)
+        {
+            persLight.enabled = isActive;
+        }
     }
 }

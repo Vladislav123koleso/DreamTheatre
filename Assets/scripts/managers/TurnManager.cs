@@ -19,7 +19,6 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     {
         // Получаем все объекты персонажей, находящихся на сцене
         CharacterController[] allCharacters = FindObjectsOfType<CharacterController>();
-
         // Добавляем каждого персонажа в список
         foreach (var character in allCharacters)
         {
@@ -34,10 +33,11 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     void StartTurn()
     {
         var currentCharacter = characters[currentTurnIndex]; // текущий персонаж
-
         currentCharacter.hasTurn = true; // активация хода персонажа
+        currentCharacter.SetLight(true); // Включаем лампу над головой для текущего персонажа
 
-        if(currentCharacter.isPlayer) // если персонаж игрока
+
+        if (currentCharacter.isPlayer) // если персонаж игрока
         {
             Debug.Log("ход персонажа: " + currentCharacter.name);
             Debug.Log("ожидания нажатия кнопки конца хода");
@@ -53,7 +53,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public void EndTurn()
     {
         characters[currentTurnIndex].hasTurn = false; // конец хода персонажа
-
+        characters[currentTurnIndex].SetLight(false);
         currentTurnIndex = (currentTurnIndex + 1) % characters.Count; // цикличный переход хода к следующему персонажу
 
         StartTurn();
