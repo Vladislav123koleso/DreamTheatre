@@ -45,8 +45,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         else
         {
             Debug.Log("ход врага: " + currentCharacter.name);
-            Debug.Log("Враг походил");
-            EndTurn();
+            StartCoroutine(CoroTurnEnemy());
+            
         }
     }
 
@@ -70,4 +70,11 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         }
     }
 
+    // метол имитации хода врага
+    private IEnumerator CoroTurnEnemy()
+    {
+        yield return new WaitForSeconds(1);
+        Debug.Log("Враг походил");
+        EndTurn();
+    }
 }

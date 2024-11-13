@@ -10,15 +10,26 @@ public class basePers
 {
     public string name;
 
-    public int hp;// имя
-    public int speed;// скорость
-    public int damage;// базовый урон
-    public int protection; // защита
+    public int hp;// РёРјСЏ
+    public int speed;// СЃРєРѕСЂРѕСЃС‚СЊ
+    public int damage;// Р±Р°Р·РѕРІС‹Р№ СѓСЂРѕРЅ
+    public int protection; // Р·Р°С‰РёС‚Р°
 
-    public bool hasTurn;  // Показывает, чей это ход
-    public bool isPlayer; // показывает что персонаж игрока
+    public bool hasTurn;  // РџРѕРєР°Р·С‹РІР°РµС‚, С‡РµР№ СЌС‚Рѕ С…РѕРґ
+    public bool isPlayer; // РїРѕРєР°Р·С‹РІР°РµС‚ С‡С‚Рѕ РїРµСЂСЃРѕРЅР°Р¶ РёРіСЂРѕРєР°
 
     public Light2DBase persLight;
+
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РёСЃС‚РѕС‡РЅРёРєР° СЃРІРµС‚Р°
+    public void InitializeLight(Transform characterTransform)
+    {
+        // РС‰РµРј РєРѕРјРїРѕРЅРµРЅС‚ Light2D РІ РґРѕС‡РµСЂРЅРёС… РѕР±СЉРµРєС‚Р°С… РїРµСЂСЃРѕРЅР°Р¶Р°
+        persLight = characterTransform.GetComponentInChildren<Light2DBase>();
+        if (persLight != null)
+        {
+            persLight.enabled = false;
+        }
+    }
 
     public basePers(string name, int hp, int speed, int damage, int protection, bool hasTurn = false,bool isPlayer = false)
     {

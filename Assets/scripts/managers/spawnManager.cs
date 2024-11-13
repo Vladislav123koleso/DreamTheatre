@@ -28,7 +28,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             // ѕолучаем данные главного персонажа через его CharacterController
             basePers mainCharacterData = mainPers.GetComponent<CharacterController>().persData;
             //deleteme
-            basePers newMainPers = new basePers("Enemy" + Random.Range(1, 100), Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), Random.Range(5, 60), false, true);
+            basePers newMainPers = new basePers("GG" + Random.Range(1, 100), Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), Random.Range(5, 60), false, true);
             mainPers.GetComponent<CharacterController>().InitializeCharacter(newMainPers);
             //
             playerCharacters.Add(mainCharacterData); // ƒобавл€ем главного персонажа в список
@@ -71,4 +71,6 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     {
         return new basePers("Enemy" + numberEnemy, Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), Random.Range(5, 60), false, false);
     }
+
+    
 }
