@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.Rendering.Universal;
 
 [Serializable]
 public class basePers
@@ -18,13 +19,13 @@ public class basePers
     public bool hasTurn;  // Показывает, чей это ход
     public bool isPlayer; // показывает что персонаж игрока
 
-    public Light2DBase persLight;
+    public Light2D persLight;
 
     // Инициализация источника света
     public void InitializeLight(Transform characterTransform)
     {
         // Ищем компонент Light2D в дочерних объектах персонажа
-        persLight = characterTransform.GetComponentInChildren<Light2DBase>();
+        persLight = characterTransform.GetComponentInChildren<Light2D>();
         if (persLight != null)
         {
             persLight.enabled = false;
@@ -51,4 +52,21 @@ public class basePers
             persLight.enabled = isActive;
         }
     }
+
+    // Метод для изменения цвета света над персонажем
+    public void SetLightColor(Color color)
+    {
+        if (persLight != null)
+        {
+            persLight.color = color;
+        }
+    }
+
+    // Метод для сброса света к изначальному цвету
+    public void ResetLightColor()
+    {
+        SetLightColor(new Color32(0xFE, 0xFF, 0xCB, 0xFF)); // дефолтный цвет
+    }
+
+
 }

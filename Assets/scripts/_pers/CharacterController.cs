@@ -17,5 +17,15 @@ public class CharacterController : MonoBehaviour
         persData = character;
         persData.InitializeLight(transform);
     }
-    
+
+
+    public void TakeDamage(int damage)
+    {
+        persData.hp -= damage;
+        if (persData.hp <= 0)
+        {
+            // Логика смерти персонажа
+            Debug.Log($"{persData.name} повержен!");
+        }
+    }
 }

@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleInitializer : MonoBehaviour
 {
-    //public spawnManager spawnManager;
     public FadeInOut fadeInOut;
     public Camera mainCamera;
     public TurnManager turnManager;
@@ -12,30 +10,44 @@ public class BattleInitializer : MonoBehaviour
 
     private IEnumerator Start()
     {
-        // —павн персонажей
+        // —павн персонажей (раскомментируйте при необходимости)
         //spawnManager.SpawnPlayerCharacters();
         //spawnManager.SpawnEnemyCharacters();
 
         // ∆дем 3 секунды после спавна
         yield return new WaitForSeconds(3);
-        //
-        
+
+        // Ёффект затемнени€
         yield return StartCoroutine(fadeInOut.FadeOut());
         yield return new WaitForSeconds(1);
+
         abilitiesPanel.SetActive(true);
-        yield return StartCoroutine(fadeInOut.FadeIn());
 
         // ‘окусировка камеры
-        FocusCameraOnBattle();
+        StartCoroutine(FocusCameraOnBattle());
+        
+        yield return StartCoroutine(fadeInOut.FadeIn());
 
-        // ¬ключаем TurnManager(начинаетс€ бой)
+
+        // ¬ключаем TurnManager (начинаетс€ бой)
         turnManager.InitializeCharacters();
         turnManager.StartTurn();
     }
 
-    void FocusCameraOnBattle()
+    IEnumerator FocusCameraOnBattle()
     {
-        // Ћогика приближени€ камеры к бою 
-        mainCamera.transform.position = new Vector3(0, 0, -10); // пример позиции
+        float targetSize = 5f; // ÷елевой размер камеры дл€ приближени€
+        float duration = 0f; // ƒлительность приближени€
+        float initialSize = mainCamera.orthographicSize;
+        float timeElapsed = 0;
+
+        while (timeElapsed < duration)
+        {
+            mainCamera.orthographicSize = Mathf.Lerp(initialSize, targetSize, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        mainCamera.orthographicSize = targetSize;
     }
 }
