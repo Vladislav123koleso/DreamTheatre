@@ -72,6 +72,7 @@ public class basePers
             persLight.color = color;
         }
     }
+    //
 
     // Метод для сброса света к изначальному цвету
     public void ResetLightColor()

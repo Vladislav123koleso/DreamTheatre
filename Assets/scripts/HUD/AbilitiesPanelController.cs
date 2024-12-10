@@ -68,16 +68,23 @@ public class AbilitiesPanelController : MonoBehaviour
         if (isAbilityHighlighted) return; // ≈сли подсветка уже активирована, не делаем ничего
 
         List<CharacterController> enemies = GetEnemyControllers();
+        int enemiesCount = enemies.Count;
 
-        for (int i = 0; i < Mathf.Min(2, enemies.Count); i++)
+        // ѕровер€ем, что врагов достаточно дл€ подсветки
+        if (enemiesCount == 0) return;
+
+        // ѕодсвечиваем последних двух врагов
+        for (int i = Mathf.Max(0, enemiesCount - 2); i < enemiesCount; i++)
         {
             enemies[i].persData.SetLight(true);
             enemies[i].persData.SetLightColor(Color.red);
             highlightedEnemies.Add(enemies[i]);
         }
+
         isAbilityHighlighted = true;
 
     }
+
 
     // Ќаносим урон двум первым врагам
     private void DamageFirstTwoEnemies()

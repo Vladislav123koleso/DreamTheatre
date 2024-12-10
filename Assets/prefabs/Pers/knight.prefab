@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 5967807657413916629}
   - component: {fileID: 1810889042}
   - component: {fileID: 800795532784492909}
+  - component: {fileID: 3360445232664649853}
   m_Layer: 0
   m_Name: knight
   m_TagString: Untagged
@@ -461,6 +462,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.54225796, y: 0.61782634}
   m_EdgeRadius: 0
+--- !u!114 &3360445232664649853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967807657413916618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d6d486f678661428997b1ba9109351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoPanel: {fileID: 0}
+  infoTitle: {fileID: 0}
+  infoDescription: {fileID: 0}
+  hoverTime: 1
+  abilityName: 
+  abilityDescription: 
+  characterName: 
+  characterHP: 0
+  characterMinDmg: 0
+  characterMaxDmg: 0
+  characterProtection: 0
+  characterSpeed: 0
 --- !u!1 &7639271386806993677
 GameObject:
   m_ObjectHideFlags: 0
