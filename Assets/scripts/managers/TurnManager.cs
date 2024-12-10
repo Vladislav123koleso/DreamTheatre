@@ -8,6 +8,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public List<basePers> characters = new List<basePers>();
     int currentTurnIndex = 0;
 
+    public bool IsNewTurn { get; private set; } // для отслеживания нового хода
+
     /*private IEnumerator Start()
     {
         yield return new WaitForSeconds(0.1f); // Короткая задержка, чтобы персонажи успели заспавниться
@@ -32,6 +34,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
 
     public void StartTurn()
     {
+        IsNewTurn = false;
+
         var currentCharacter = characters[currentTurnIndex]; // текущий персонаж
         currentCharacter.hasTurn = true; // активация хода персонажа
         currentCharacter.SetLight(true); // Включаем лампу над головой для текущего персонажа
@@ -52,6 +56,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
 
     public void EndTurn()
     {
+        IsNewTurn = true;
+
         characters[currentTurnIndex].hasTurn = false; // конец хода персонажа
         characters[currentTurnIndex].SetLight(false);
         currentTurnIndex = (currentTurnIndex + 1) % characters.Count; // цикличный переход хода к следующему персонажу
@@ -76,5 +82,12 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         yield return new WaitForSeconds(1);
         Debug.Log("Враг походил");
         EndTurn();
+    }
+
+
+    // получаем персонажа чей сейчас ход
+    public basePers GetActiveCharacter()
+    {
+        return characters.FirstOrDefault(c => c.hasTurn); // Находим персонажа, у которого включен флаг hasTurn
     }
 }

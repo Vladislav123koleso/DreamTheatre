@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.Rendering.Universal;
+using Unity.Mathematics;
 
 [Serializable]
 public class basePers
@@ -12,9 +13,16 @@ public class basePers
     public string name;
 
     public int hp;// имя
+    public int minDamage;// минимальный базовый урон
+    public int maxDamage;// максимальный базовый урон
+    public int critChance; // шанс крит попадания
     public int speed;// скорость
-    public int damage;// базовый урон
     public int protection; // защита
+    public int magicProtection; // магическая защита
+    
+    // сопротивления эффектам 
+
+    //
 
     public bool hasTurn;  // Показывает, чей это ход
     public bool isPlayer; // показывает что персонаж игрока
@@ -32,13 +40,16 @@ public class basePers
         }
     }
 
-    public basePers(string name, int hp, int speed, int damage, int protection, bool hasTurn = false,bool isPlayer = false)
+    public basePers(string name, int hp, int speed, int protection, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2)
     {
         this.name = name; 
         this.hp = hp; 
         this.speed = speed; 
-        this.damage = damage; 
         this.protection = protection;
+        this.magicProtection = magicProtection;
+        this.minDamage = minDamage;
+        this.maxDamage = maxDamage;
+        this.critChance = critChance;
 
         this.hasTurn = false; 
         this.isPlayer = isPlayer; 
@@ -67,6 +78,34 @@ public class basePers
     {
         SetLightColor(new Color32(0xFE, 0xFF, 0xCB, 0xFF)); // дефолтный цвет
     }
+
+
+    // метод подсчета наносимого урона
+    public int CalculateDamage()
+    {
+        bool isCriticalHit = CheckCriticalHit();
+        int baseDamage = UnityEngine.Random.Range(minDamage, maxDamage);
+        
+        if(isCriticalHit)
+        {
+            Debug.Log("Нанесен крит урон!");
+            return baseDamage * 2;
+        }
+        else
+        {
+            Debug.Log("Нанесен урон!");
+            return baseDamage;
+        }
+    }
+    //проверка что попадание критическое
+    private bool CheckCriticalHit()
+    {
+        int randomValue = UnityEngine.Random.Range(0,100);
+
+        return randomValue <= critChance; 
+    }
+
+
 
 
 }

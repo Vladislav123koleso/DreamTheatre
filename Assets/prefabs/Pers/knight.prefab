@@ -334,6 +334,7 @@ GameObject:
   - component: {fileID: 5967807657413916628}
   - component: {fileID: 5967807657413916629}
   - component: {fileID: 1810889042}
+  - component: {fileID: 800795532784492909}
   m_Layer: 0
   m_Name: knight
   m_TagString: Untagged
@@ -424,13 +425,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persData:
     name: MainPers
-    hp: 100
-    speed: 20
-    damage: 10
-    protection: 10
+    hp: 20
+    minDamage: 6
+    maxDamage: 8
+    critChance: 8
+    speed: 4
+    protection: 6
+    magicProtection: 8
     hasTurn: 0
     isPlayer: 1
     persLight: {fileID: 55541653}
+--- !u!61 &800795532784492909
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967807657413916618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.049254358, y: -0.09108686}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.54225796, y: 0.61782634}
+  m_EdgeRadius: 0
 --- !u!1 &7639271386806993677
 GameObject:
   m_ObjectHideFlags: 0

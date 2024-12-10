@@ -28,4 +28,17 @@ public class CharacterController : MonoBehaviour
             Debug.Log($"{persData.name} повержен!");
         }
     }
+
+    private void OnMouseDown()
+    {
+        // Отправляем сигнал в AbilitiesPanelController о том, что враг был выбран
+        AbilitiesPanelController abilitiesPanel = FindObjectOfType<AbilitiesPanelController>();
+        if (abilitiesPanel != null)
+        {
+            abilitiesPanel.OnEnemyClicked(this);
+            Debug.Log("Инфа о выбранном враге отправлена");
+        }
+        Debug.Log("Выбран враг");
+    }
+
 }
