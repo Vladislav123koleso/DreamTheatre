@@ -20,12 +20,14 @@ public class FadeInOut : MonoBehaviour
 
     public IEnumerator FadeOut()
     {
+        fadeImage.gameObject.SetActive(true);
         yield return StartCoroutine(Fade(1));
     }
 
     public IEnumerator FadeIn()
     {
         yield return StartCoroutine(Fade(0));
+        fadeImage.gameObject.SetActive(false);
     }
 
     private IEnumerator Fade(float targetAlpha)

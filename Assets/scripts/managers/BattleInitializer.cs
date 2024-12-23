@@ -3,51 +3,40 @@ using UnityEngine;
 
 public class BattleInitializer : MonoBehaviour
 {
-    public FadeInOut fadeInOut;
-    public Camera mainCamera;
+    
     public TurnManager turnManager;
-    public GameObject abilitiesPanel; // ѕанель с активными способност€ми
+    [SerializeField]
+    public GameManager gameManager;
+    // ‘лаг, чтобы проверить, был ли уже запущен бой
+    private bool hasStartedFight = false;
 
-    private IEnumerator Start()
+    private void Start()
     {
-        // —павн персонажей (раскомментируйте при необходимости)
+
+        // —павн персонажей 
         //spawnManager.SpawnPlayerCharacters();
         //spawnManager.SpawnEnemyCharacters();
 
-        // ∆дем 3 секунды после спавна
-        yield return new WaitForSeconds(3);
-
-        // Ёффект затемнени€
-        yield return StartCoroutine(fadeInOut.FadeOut());
-        yield return new WaitForSeconds(1);
-
-        abilitiesPanel.SetActive(true);
-
-        // ‘окусировка камеры
-        StartCoroutine(FocusCameraOnBattle());
-        
-        yield return StartCoroutine(fadeInOut.FadeIn());
-
-
-        // ¬ключаем TurnManager (начинаетс€ бой)
-        turnManager.InitializeCharacters();
-        turnManager.StartTurn();
+        //GameManager gameManager = FindObjectOfType<GameManager>();
     }
-
-    IEnumerator FocusCameraOnBattle()
+    private void Update()
     {
-        float targetSize = 5f; // ÷елевой размер камеры дл€ приближени€
-        float duration = 0f; // ƒлительность приближени€
-        float initialSize = mainCamera.orthographicSize;
-        float timeElapsed = 0;
-
-        while (timeElapsed < duration)
+        if(gameManager.isFight == true && !hasStartedFight)
         {
-            mainCamera.orthographicSize = Mathf.Lerp(initialSize, targetSize, timeElapsed / duration);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+        // ¬ключаем TurnManager (начинаетс€ бой)
+            turnManager.InitializeCharacters();
+            turnManager.StartTurn();
+
+            hasStartedFight = true;
         }
 
-        mainCamera.orthographicSize = targetSize;
+
+
+        if (!gameManager.isFight && hasStartedFight)
+        {
+            hasStartedFight = false;
+        }
     }
+
+    
 }
