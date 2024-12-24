@@ -29,6 +29,20 @@ public class basePers
 
     public Light2D persLight;
 
+    public enum enemyType
+    {
+        None,
+        Knight,
+        Slave,
+        Vuchnik
+
+
+    }
+
+    public enemyType _enemyType;
+
+
+
     // Инициализация источника света
     public void InitializeLight(Transform characterTransform)
     {
@@ -40,7 +54,7 @@ public class basePers
         }
     }
 
-    public basePers(string name, int hp, int speed, int protection, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2)
+    public basePers(string name, int hp, int speed, int protection, enemyType _enemyType, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2)
     {
         this.name = name; 
         this.hp = hp; 
@@ -52,7 +66,8 @@ public class basePers
         this.critChance = critChance;
 
         this.hasTurn = false; 
-        this.isPlayer = isPlayer; 
+        this.isPlayer = isPlayer;
+        this._enemyType = _enemyType;
     }
 
 

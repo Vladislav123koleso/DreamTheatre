@@ -26,6 +26,8 @@ public class CharacterController : MonoBehaviour
         {
             // Логика смерти персонажа
             Debug.Log($"{persData.name} повержен!");
+            TurnManager.Instance.RemoveCharacter(persData);
+            Destroy(gameObject);
         }
     }
 
@@ -39,6 +41,18 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Инфа о выбранном враге отправлена");
         }
         Debug.Log("Выбран враг");
+    }
+
+
+
+
+
+
+
+
+    public int dmgEnemyKnight()
+    {
+        return persData.CalculateDamage();
     }
 
 }

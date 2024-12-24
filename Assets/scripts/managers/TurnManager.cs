@@ -8,6 +8,24 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public List<basePers> characters = new List<basePers>();
     int currentTurnIndex = 0;
 
+    public static TurnManager Instance { get; private set; }
+
+
+    private void Awake()
+    {
+        // Проверяем, чтобы экземпляр был единственным
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogError("Дублирующийся экземпляр TurnManager найден! Уничтожение.");
+            Destroy(gameObject);
+        }
+    }
+
+
     public bool IsNewTurn { get; private set; } // для отслеживания нового хода
 
     /*private IEnumerator Start()
@@ -48,7 +66,42 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         }
         else
         {
-            Debug.Log("ход врага: " + currentCharacter.name);
+            if(currentCharacter._enemyType == basePers.enemyType.Knight)
+            {
+                Debug.Log("ход врага: " + currentCharacter.name + " тип врага: " + currentCharacter._enemyType);
+                // атака рыцаря врага
+                CharacterController currentCharctContrl = FindControllerByName(currentCharacter.name);
+                // Создаем список целей (персонажей игрока)
+                List<CharacterController> playerTargets = new List<CharacterController>();
+
+                // Проходим по всем персонажам
+                foreach (var playerPersData in characters)
+                {
+                    if (playerPersData.isPlayer) // Если это персонаж игрока
+                    {
+                        CharacterController playerCharctContrl = FindControllerByName(playerPersData.name);
+                        if (playerCharctContrl != null)
+                        {
+                            playerTargets.Add(playerCharctContrl); // Добавляем в список возможных целей
+                        }
+                    }
+                }
+
+                // Если список целей не пустой, выбираем случайную цель
+                if (playerTargets.Count > 0)
+                {
+                    int randomIndex = Random.Range(0, playerTargets.Count); // Выбираем случайный индекс
+                    CharacterController randomTarget = playerTargets[randomIndex]; // Получаем случайную цель
+
+                    // Атакуем выбранную цель
+                    randomTarget.TakeDamage(currentCharctContrl.dmgEnemyKnight());
+                    Debug.Log($"{currentCharacter.name} атаковал {randomTarget.persData.name}");
+                }
+                else
+                {
+                    Debug.LogWarning("Список целей пуст! Невозможно выполнить атаку.");
+                }
+            }
             StartCoroutine(CoroTurnEnemy());
             
         }
@@ -89,5 +142,34 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public basePers GetActiveCharacter()
     {
         return characters.FirstOrDefault(c => c.hasTurn); // Находим персонажа, у которого включен флаг hasTurn
+    }
+
+
+
+
+
+
+    // Метод для поиска CharacterController по имени
+    private CharacterController FindControllerByName(string name)
+    {
+        // Получаем всех врагов на сцене
+        CharacterController[] allControllers = FindObjectsOfType<CharacterController>();
+
+        // Ищем врага с нужным именем
+        return allControllers.FirstOrDefault(controller => controller.persData.name == name);
+    }
+
+
+    // удаления перса после смерти
+    public void RemoveCharacter(basePers character)
+    {
+        characters.Remove(character);
+        Debug.Log($"{character.name} удален из очереди ходов.");
+
+        // Обновляем индекс текущего персонажа
+        if (characters.Count > 0)
+        {
+            currentTurnIndex %= characters.Count;
+        }
     }
 }
