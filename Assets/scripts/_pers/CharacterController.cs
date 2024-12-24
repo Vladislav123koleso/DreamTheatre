@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour
             Debug.Log($"{persData.name} повержен!");
             TurnManager.Instance.RemoveCharacter(persData);
             Destroy(gameObject);
+
         }
     }
 

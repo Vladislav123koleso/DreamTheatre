@@ -7,7 +7,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
 {
     public List<basePers> characters = new List<basePers>();
     int currentTurnIndex = 0;
-
+    
     public static TurnManager Instance { get; private set; }
 
 
@@ -87,6 +87,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
                     }
                 }
 
+                
+                
                 // ≈сли список целей не пустой, выбираем случайную цель
                 if (playerTargets.Count > 0)
                 {
@@ -115,6 +117,8 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         characters[currentTurnIndex].SetLight(false);
         currentTurnIndex = (currentTurnIndex + 1) % characters.Count; // цикличный переход хода к следующему персонажу
 
+        //StartCoroutine(GameManager.Instance.CheckBattleOutcome());
+
         StartTurn();
     }
 
@@ -127,6 +131,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         {
             EndTurn();
         }
+        //StartCoroutine(GameManager.Instance.CheckBattleOutcome());
     }
 
     // метол имитации хода врага
@@ -171,5 +176,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         {
             currentTurnIndex %= characters.Count;
         }
+
+        
     }
 }

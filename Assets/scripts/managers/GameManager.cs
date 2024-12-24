@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
 
 
+    public static GameManager Instance { get; private set; }
+
     private IEnumerator Start()
     {
         
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
         isFight = true;
 
 
-
+        StartCoroutine(CheckBattleOutcome());
     }
 
 
@@ -142,9 +144,9 @@ public class GameManager : MonoBehaviour
     }
 
 
+    
 
-
-    private IEnumerator CheckBattleOutcome()
+    public IEnumerator CheckBattleOutcome()
     {
         while (isFight)
         {
@@ -186,13 +188,15 @@ public class GameManager : MonoBehaviour
         players.RemoveAll(player => player == null || !player.activeInHierarchy);
     }
 
-    // Вызывайте этот метод каждый раз после хода, чтобы обновить списки
+    
     private void Update()
     {
         if (isFight)
         {
             UpdateCharacterLists();
         }
+        //CheckBattleOutcome();
+        
     }
 
 
