@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;  // Для вывода текста диалога
     
 
-    List<GameObject> enemies = new List<GameObject>();
-    List<GameObject> players = new List<GameObject>();
+    public List<GameObject> enemies = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
 
 
     private IEnumerator Start()
@@ -35,10 +35,15 @@ public class GameManager : MonoBehaviour
         //yield return new WaitForSeconds(0);
         // Эффект затемнения
         yield return StartCoroutine(fadeInOut.FadeOut());
+        
 
+
+        /*
         string intro = "Голос во тьме: Добро пожаловать на сцену Театра смерти, " +
             "здесь вы познаете отчаяние и смерть. Пьесса о вашей смерти будет сыграна здесь";
         yield return StartCoroutine(TypeText(intro, introText));
+        */
+
 
         // получаем списки персонажей игрока и врагов
         FindCharacters();
@@ -52,7 +57,7 @@ public class GameManager : MonoBehaviour
         //---------------------------
         //здесь диалоговая система
         // Переход к диалогу персонажей
-        yield return StartCoroutine(DialogueSequence());
+        // yield return StartCoroutine(DialogueSequence());
 
 
         //----------------------------------
@@ -135,6 +140,64 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         //dialogueText.text = "";
     }
+
+
+
+
+    private IEnumerator CheckBattleOutcome()
+    {
+        while (isFight)
+        {
+            yield return new WaitForSeconds(1); // Проверяем каждую секунду, чтобы не нагружать процессор
+
+            // Проверка победы
+            if (enemies.Count == 0)
+            {
+                Debug.Log("Игрок победил!");
+                yield return StartCoroutine(TypeText("Поздравляем, вы выиграли!", introText));
+                EndFight();
+                yield return StartCoroutine(DialogueSequence()); // Начинаем новый диалог
+                yield break; // Выходим из проверки
+            }
+
+            // Проверка поражения
+            if (players.Count == 0)
+            {
+                Debug.Log("Игрок проиграл!");
+                yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
+                EndFight();
+                yield break; // Выходим из проверки
+            }
+        }
+    }
+
+    private void EndFight()
+    {
+        isFight = false;
+        abilitiesPanel.SetActive(false); // Скрываем панель способностей
+        ResetCameraToDefault(); // Возвращаем камеру к стандартному состоянию
+    }
+
+    // Метод обновления списков врагов и игроков после их действий
+    public void UpdateCharacterLists()
+    {
+        // Удаляем мертвых персонажей из списков
+        enemies.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
+        players.RemoveAll(player => player == null || !player.activeInHierarchy);
+    }
+
+    // Вызывайте этот метод каждый раз после хода, чтобы обновить списки
+    private void Update()
+    {
+        if (isFight)
+        {
+            UpdateCharacterLists();
+        }
+    }
+
+
+
+
 
 
     // вывод текста по букве
