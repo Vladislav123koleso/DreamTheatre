@@ -47,7 +47,14 @@ public class CharacterController : MonoBehaviour
 
 
 
-
+    public void Heal(int heal_points/* на сколько захил*/)
+    {
+        persData.hp = heal_points;
+        if (persData.hp > persData.max_hp)
+        {
+            persData.hp = persData.max_hp;
+        }
+    }
 
 
 

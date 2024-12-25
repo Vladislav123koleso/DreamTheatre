@@ -15,8 +15,9 @@ public class AbilitiesPanelController : MonoBehaviour
 
     private int selectedAbilityIndex = -1; // Индекс выбранной способности
     private TurnManager turnManager; // Ссылка на TurnManager для активного персонажа
+    [SerializeField]
+    private bool isAbilityUsed = false; // Флаг для отслеживания использования способности за ход
 
-    
     private void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
@@ -32,6 +33,14 @@ public class AbilitiesPanelController : MonoBehaviour
     // Метод для выбора способности
     public void OnAbilitySelected(int abilityIndex)
     {
+        if (isAbilityUsed)
+        {
+            Debug.Log("Вы уже использовали способность за этот ход!");
+            return; // Блокируем повторное использование
+        }
+
+
+
         // Проверяем, был ли уже выбран скилл для этой кнопки
         if (abilitySelected && selectedAbilityIndex == abilityIndex)
         {
@@ -51,7 +60,7 @@ public class AbilitiesPanelController : MonoBehaviour
         abilitySelected = true;
         selectedAbilityIndex = abilityIndex;
         highlightedEnemies.Clear();
-
+        enemies = GetEnemyControllers();
         Debug.Log($"Выбрана способность {abilityIndex + 1}");
         switch (abilityIndex)
         {
@@ -59,29 +68,51 @@ public class AbilitiesPanelController : MonoBehaviour
                 HighlightFirstTwoEnemies();
                 break;
             case 1:
+                
                 DamageFirstTwoEnemies();
                 break;
                 // Здесь остальные способности
         }
+
+        
     }
 
-    // Подсветка двух ближайших врагов
+    //
+    public void ResetAbilityUsage()
+    {
+        isAbilityUsed = false; // Разрешаем использование способности
+    }
+
+
+    // Подсветка первого врага
     private void HighlightFirstTwoEnemies()
     {
         if (isAbilityHighlighted) return; // Если подсветка уже активирована, не делаем ничего
+        if(enemies.Count == 0)
+        {
 
-        List<CharacterController> enemies = GetEnemyControllers();
+        }
+        /*List<CharacterController> *//*enemies = GetEnemyControllers();*/
         int enemiesCount = enemies.Count;
 
         // Проверяем, что врагов достаточно для подсветки
         if (enemiesCount == 0) return;
-
-        // Подсвечиваем двух врагов
-        for (int i = 2; i < enemiesCount; i++)
+        if(enemiesCount == 1)
         {
-            enemies[i].persData.SetLight(true);
-            enemies[i].persData.SetLightColor(Color.red);
-            highlightedEnemies.Add(enemies[i]);
+            enemies[0].persData.SetLight(true);
+            enemies[0].persData.SetLightColor(Color.red);
+            highlightedEnemies.Add(enemies[0]);
+        }
+        else
+        {
+            // Подсвечиваем двух врагов
+            for (int i = enemiesCount - 2; i < enemiesCount; i++)
+            {
+                enemies[i].persData.SetLight(true);
+                enemies[i].persData.SetLightColor(Color.red);
+                highlightedEnemies.Add(enemies[i]);
+            }
+
         }
 
         isAbilityHighlighted = true;
@@ -141,10 +172,19 @@ public class AbilitiesPanelController : MonoBehaviour
             }
             else
             {
-                highlightedEnemies[0].TakeDamage(damage2);
-                highlightedEnemies[1].TakeDamage(damage1);
-                Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
-                Debug.Log($"Нанесено {damage2} урона врагу {highlightedEnemies[1].persData.name}");
+                if(enemies.Count == 1)
+                {
+                    highlightedEnemies[0].TakeDamage(damage2);
+                    Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                }
+                else
+                {
+                    highlightedEnemies[0].TakeDamage(damage1);
+                    highlightedEnemies[1].TakeDamage(damage2);
+                    Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                    Debug.Log($"Нанесено {damage2} урона врагу {highlightedEnemies[1].persData.name}");
+
+                }
                 // Сбрасываем подсветку после применения способности
                 ResetEnemyLights();
                 /*foreach (var highlightedEnemy in highlightedEnemies)
@@ -154,9 +194,10 @@ public class AbilitiesPanelController : MonoBehaviour
                 }*/
 
                 // Сбрасываем подсветку после применения способности
-                ResetEnemyLights();
+                //ResetEnemyLights();
             }
-
+            // Отмечаем, что способность использована
+            isAbilityUsed = true;
             abilitySelected = false; 
             isAbilityHighlighted = false;
         }
@@ -166,8 +207,8 @@ public class AbilitiesPanelController : MonoBehaviour
     // Метод для получения списка врагов
     private List<CharacterController> GetEnemyControllers()
     {
-        List<CharacterController> enemies = new List<CharacterController>();
-
+        /*List<CharacterController> enemies = new List<CharacterController>();*/
+        enemies.Clear();
         foreach (var character in FindObjectsOfType<CharacterController>())
         {
             if (!character.persData.isPlayer) // Если это враг

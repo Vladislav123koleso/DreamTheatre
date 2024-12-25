@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public List<GameObject> players = new List<GameObject>();
 
 
+    
+    public int battleCounter = 0; // Счетчик боев
+
     public static GameManager Instance { get; private set; }
 
     private IEnumerator Start()
@@ -143,22 +146,54 @@ public class GameManager : MonoBehaviour
         //dialogueText.text = "";
     }
 
+    private IEnumerator SecondDialogueSequence()
+    {
+        // Получаем персонажей для диалога
+        GameObject player = players[0]; // Первый игрок
+        GameObject enemy = enemies[0];  // Первый враг
 
-    
+        // Получаем канвасы персонажей (второй дочерний объект)
+        Transform playerCanvas = player.transform.GetChild(1); // Канвас игрока
+        Transform enemyCanvas = enemy.transform.GetChild(1);   // Канвас врага
+
+        // Получаем компоненты TextMeshProUGUI
+        TextMeshProUGUI playerDialogueText = playerCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI enemyDialogueText = enemyCanvas.GetComponentInChildren<TextMeshProUGUI>();
+
+
+        // Диалог 1 (Игрок и 1 из врагов)
+        yield return StartCoroutine(TypeText("Игрок: Я победил", playerDialogueText));
+        yield return new WaitForSeconds(1); // Пауза между диалогами
+
+        yield return StartCoroutine(TypeText("Игрок: что же будет дальше", playerDialogueText));
+        yield return new WaitForSeconds(1);
+
+        
+
+        // Пауза после диалога
+        yield return new WaitForSeconds(1);
+        //dialogueText.text = "";
+    }
+
+
 
     public IEnumerator CheckBattleOutcome()
     {
         while (isFight)
         {
-            yield return new WaitForSeconds(1); // Проверяем каждую секунду, чтобы не нагружать процессор
+            yield return new WaitForSeconds(1);
 
             // Проверка победы
             if (enemies.Count == 0)
             {
+                battleCounter++;
                 Debug.Log("Игрок победил!");
-                yield return StartCoroutine(TypeText("Поздравляем, вы выиграли!", introText));
+                HealAllPlayers(); // Исцеляем всех игроков
                 EndFight();
-                yield return StartCoroutine(DialogueSequence()); // Начинаем новый диалог
+                if(battleCounter == 1) // при победе в первой битве
+                {
+                    yield return StartCoroutine(SecondDialogueSequence()); // Начинаем новый диалог
+                }
                 yield break; // Выходим из проверки
             }
 
@@ -166,8 +201,8 @@ public class GameManager : MonoBehaviour
             if (players.Count == 0)
             {
                 Debug.Log("Игрок проиграл!");
-                yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
                 EndFight();
+                //yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
                 yield break; // Выходим из проверки
             }
         }
@@ -201,9 +236,24 @@ public class GameManager : MonoBehaviour
 
 
 
+    private void HealAllPlayers()
+    {
+        // Находим всех игроков на сцене
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        foreach (GameObject player in players)
+        {
+            // Получаем скрипт CharacterController у каждого игрока
+            CharacterController characterController = player.GetComponent<CharacterController>();
+            if (characterController != null)
+            {
+                // Вызываем метод Heal
+                characterController.Heal(characterController.persData.max_hp);
+            }
+        }
+    }
 
-
+    //--------------------------------------------------------------------------
     // вывод текста по букве
     private IEnumerator TypeText(string message, TextMeshProUGUI targetText)
     {

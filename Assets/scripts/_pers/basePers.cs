@@ -12,7 +12,8 @@ public class basePers
 {
     public string name;
 
-    public int hp;// имя
+    public int hp;//текущее хп
+    public int max_hp;//макс хп
     public int minDamage;// минимальный базовый урон
     public int maxDamage;// максимальный базовый урон
     public int critChance; // шанс крит попадания
@@ -58,6 +59,7 @@ public class basePers
     {
         this.name = name; 
         this.hp = hp; 
+        this.max_hp = hp; 
         this.speed = speed; 
         this.protection = protection;
         this.magicProtection = magicProtection;

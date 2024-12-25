@@ -16,6 +16,8 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     public GameObject mainPers;
     private List<basePers> playerCharacters; // список персонажей игрока
 
+    public static spawnManager Instance { get; private set; }
+
     private void Start()
     {
         // Загружаем список персонажей из хаба
@@ -69,7 +71,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     // P.S. временно для блокинга
     basePers CreateRandomEnemy(int numberEnemy)
     {
-        return new basePers("Enemy" + numberEnemy, Random.Range(30, 200), Random.Range(40, 120), Random.Range(5, 15), basePers.enemyType.Knight, false, false, Random.Range(5, 60));
+        return new basePers("Enemy" + numberEnemy, Random.Range(12, 15), Random.Range(2, 5), Random.Range(5, 6), basePers.enemyType.Knight, false, false,0, 5,7, Random.Range(1, 8));
     }
 
     
