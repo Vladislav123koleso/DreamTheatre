@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public bool isFight = false; // для отслеживания активности боя
 
     public TextMeshProUGUI introText;  // текст заставки
-    public float typingSpeed = 0.05f;     // Скорость появления текста
+    public float typingSpeed = /*0.05f*/ 1f;     // Скорость появления текста
 
     public TextMeshProUGUI dialogueText;  // Для вывода текста диалога
     
@@ -40,14 +40,17 @@ public class GameManager : MonoBehaviour
         //yield return new WaitForSeconds(0);
         // Эффект затемнения
         yield return StartCoroutine(fadeInOut.FadeOut());
-        
 
 
-        /*
-        string intro = "Голос во тьме: Добро пожаловать на сцену Театра смерти, " +
-            "здесь вы познаете отчаяние и смерть. Пьесса о вашей смерти будет сыграна здесь";
+
+
+        /*string intro = "Суеверные обходили Этот театр стороной. " +
+            "Смельчаки и туристы любили без памяти, сами не зная, почему. " +
+            "Глупцы и одиночки пропадали без вести, не оставляя после себя воспоминаний -- " +
+            "на окраине города точно происходило что-то неописуемо странное. Ч" +
+            "то-то, чего не должно было быть. Едва переехавшему в новый город молодому актёру явно не светило беспрепятственной славы.";
         yield return StartCoroutine(TypeText(intro, introText));
-        */
+*/
 
 
         // получаем списки персонажей игрока и врагов
@@ -128,21 +131,33 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI enemyDialogueText = enemyCanvas.GetComponentInChildren<TextMeshProUGUI>();
 
 
+        StartCoroutine(TypeText("королева: Этот вопрос необходимо разрешить к завтрашнему " +
+            "рассвету. Соседнее королевство должно пасть.",introText));
+        yield return new WaitForSeconds(2);
         // Диалог 1 (Игрок и 1 из врагов)
-        yield return StartCoroutine(TypeText("Игрок: Привет, кто ты?", playerDialogueText));
+        yield return StartCoroutine(TypeText("мысли: Королева сошла с ума, мы не можем развязать войну! Почему никто не возразил? Почему никто не понимает, насколько это опасно?", playerDialogueText));
         yield return new WaitForSeconds(1); // Пауза между диалогами
 
-        yield return StartCoroutine(TypeText("Враг: Я... голос из темноты. Ты здесь не один.", enemyDialogueText));
+        yield return StartCoroutine(TypeText("мысли: К завтрашнему рассвету... Мы потеряем всё.Я должен найти кого-то, кто поможет остановить её.", playerDialogueText));
+        yield return new WaitForSeconds(1); 
+
+        yield return StartCoroutine(TypeText("Игрок: эй,торговцы, вам приходилось торговать в соседнем королевстве, верно? У нас ведь есть замечательные торговые связи, не думаете? А сегодняшний указ, он...", playerDialogueText));
+        //yield return new WaitForSeconds(1);
+
+        yield return StartCoroutine(TypeText("Враг: Ты имеешь что-то против нашей королевы?", enemyDialogueText));
         yield return new WaitForSeconds(1);
 
-        yield return StartCoroutine(TypeText("Игрок: Что здесь происходит?", playerDialogueText));
+        yield return StartCoroutine(TypeText("мысли: С чего они сразу разозлились?", playerDialogueText));
         yield return new WaitForSeconds(1);
 
-        yield return StartCoroutine(TypeText("Враг: Это место для твоей смерти...", enemyDialogueText));
+        yield return StartCoroutine(TypeText("Игрок: Что вы, я не имел в виду ничего такого, мы просто потеряем все связи, если...", playerDialogueText));
+        yield return new WaitForSeconds(1);
+
+        yield return StartCoroutine(TypeText("Враг: УМРИ ИЗМЕННИК!", enemyDialogueText));
         yield return new WaitForSeconds(1);
 
         // Пауза после диалога
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
         //dialogueText.text = "";
     }
 

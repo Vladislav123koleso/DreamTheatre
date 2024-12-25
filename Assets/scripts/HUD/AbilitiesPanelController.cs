@@ -138,7 +138,7 @@ public class AbilitiesPanelController : MonoBehaviour
 
         
         abilityButtons[1].interactable = false; // Делаем кнопку неактивной
-        StartCoroutine(CooldownAbility(1, 1)); // Кд на 1 ход
+        StartCoroutine(CooldownAbility(1, 2)); // Кд на 1 ход
 
         isAbilityHighlighted = false;
     }

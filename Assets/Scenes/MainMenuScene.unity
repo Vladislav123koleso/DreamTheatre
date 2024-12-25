@@ -365,10 +365,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: back
+  m_text: "\u043D\u0430\u0437\u0430\u0434"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
+  m_sharedMaterial: {fileID: -4999927389322922136, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -392,8 +392,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.33
-  m_fontSizeBase: 36.33
+  m_fontSize: 40.8
+  m_fontSizeBase: 40.8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 64.79
+  m_characterSpacing: 21
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -783,10 +783,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game
+  m_text: "\u0422\u0435\u0430\u0442\u0440 \u043C\u0435\u0447\u0442\u044B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
+  m_sharedMaterial: {fileID: -4999927389322922136, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2416,10 +2416,10 @@ RectTransform:
   m_Father: {fileID: 1951032859}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.215, y: 0.734}
-  m_AnchorMax: {x: 0.7992598, y: 0.81700003}
-  m_AnchoredPosition: {x: -4, y: 3}
-  m_SizeDelta: {x: -3.1400146, y: 1.0899963}
+  m_AnchorMin: {x: 0.17848057, y: 0.845}
+  m_AnchorMax: {x: 0.9512598, y: 0.93200004}
+  m_AnchoredPosition: {x: -3, y: 3}
+  m_SizeDelta: {x: 8.900002, y: -2.9100037}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945810884
 MonoBehaviour:
@@ -2441,10 +2441,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Settings
+  m_text: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
+  m_sharedMaterial: {fileID: -4999927389322922136, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2468,8 +2468,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 69.3
-  m_fontSizeBase: 69.3
+  m_fontSize: 54
+  m_fontSizeBase: 54
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

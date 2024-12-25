@@ -225,8 +225,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.04}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.1377, y: 0.3227}
-  m_SizeDelta: {x: 1.4039, y: 0.3896}
+  m_AnchoredPosition: {x: 0.0126, y: 0.3227}
+  m_SizeDelta: {x: 2.2283, y: 0.3896}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6451586089304149115
 Canvas:
@@ -318,7 +318,7 @@ Transform:
   m_GameObject: {fileID: 5967807657413916618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.94, y: -1.9, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 55541652}
@@ -393,6 +393,7 @@ MonoBehaviour:
   persData:
     name: 
     hp: 0
+    max_hp: 0
     minDamage: 0
     maxDamage: 0
     critChance: 0

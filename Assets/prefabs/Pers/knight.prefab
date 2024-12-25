@@ -351,7 +351,7 @@ Transform:
   m_GameObject: {fileID: 5967807657413916618}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.94, y: -1.9, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 55541652}
@@ -426,6 +426,7 @@ MonoBehaviour:
   persData:
     name: MainPers
     hp: 20
+    max_hp: 0
     minDamage: 6
     maxDamage: 8
     critChance: 8
@@ -435,6 +436,7 @@ MonoBehaviour:
     hasTurn: 0
     isPlayer: 1
     persLight: {fileID: 55541653}
+    _enemyType: 0
 --- !u!61 &800795532784492909
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -523,8 +525,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.04}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.017, y: 0.356}
-  m_SizeDelta: {x: 1.037, y: 0.3576}
+  m_AnchoredPosition: {x: 0.0515, y: 0.356}
+  m_SizeDelta: {x: 2.9076, y: 0.3576}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2534874733697918944
 Canvas:
