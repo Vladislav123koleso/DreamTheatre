@@ -1077,7 +1077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &474166336
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3001,6 +3001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityButtons: []
   enemies: []
+  isAbilityUsed: 0
 --- !u!1 &1158486023
 GameObject:
   m_ObjectHideFlags: 0
