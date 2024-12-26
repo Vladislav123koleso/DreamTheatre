@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public GameObject abilitiesPanel; // Панель с активными способностями
     private float defaultCameraSize; // Для хранения дефолтного размера камеры
 
+    public GameObject losePanel;
+
     public bool isFight = false; // для отслеживания активности боя
 
     public TextMeshProUGUI introText;  // текст заставки
@@ -217,6 +219,8 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("Игрок проиграл!");
                 EndFight();
+                yield return new WaitForSeconds(2);
+                losePanel.SetActive(true);
                 //yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
                 yield break; // Выходим из проверки
             }

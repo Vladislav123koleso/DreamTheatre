@@ -20,7 +20,10 @@ public class basePers
     public int speed;// скорость
     public int protection; // защита
     public int magicProtection; // магическая защита
-    
+
+
+    public int cooldownSecondSkill;
+
     // сопротивления эффектам 
 
     //

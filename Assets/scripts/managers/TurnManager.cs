@@ -117,6 +117,11 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         IsNewTurn = true;
 
         characters[currentTurnIndex].hasTurn = false; // конец хода персонажа
+        //если есть кулдаун у перса то он уменьшается
+        if(characters[currentTurnIndex].cooldownSecondSkill != 0)
+        {
+            characters[currentTurnIndex].cooldownSecondSkill--;
+        }
         characters[currentTurnIndex].SetLight(false);
         currentTurnIndex = (currentTurnIndex + 1) % characters.Count; // цикличный переход хода к следующему персонажу
 

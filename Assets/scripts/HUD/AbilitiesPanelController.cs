@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,13 +34,16 @@ public class AbilitiesPanelController : MonoBehaviour
     // Метод для выбора способности
     public void OnAbilitySelected(int abilityIndex)
     {
+        basePers activeCharacter = turnManager.GetActiveCharacter();
+
         if (isAbilityUsed)
         {
             Debug.Log("Вы уже использовали способность за этот ход!");
             return; // Блокируем повторное использование
         }
 
-
+        //если кулдаун не скинулся и пытаются на него нажать мы выходим
+        if (abilityIndex == 1 && activeCharacter.cooldownSecondSkill != 0) { return; }
 
         // Проверяем, был ли уже выбран скилл для этой кнопки
         if (abilitySelected && selectedAbilityIndex == abilityIndex)
@@ -57,9 +61,12 @@ public class AbilitiesPanelController : MonoBehaviour
             return; // Выход из метода, чтобы не выполнять повторно*/
         }
         
+        
+
         abilitySelected = true;
         selectedAbilityIndex = abilityIndex;
         highlightedEnemies.Clear();
+
         enemies = GetEnemyControllers();
         Debug.Log($"Выбрана способность {abilityIndex + 1}");
         switch (abilityIndex)
@@ -138,7 +145,6 @@ public class AbilitiesPanelController : MonoBehaviour
 
         
         abilityButtons[1].interactable = false; // Делаем кнопку неактивной
-        StartCoroutine(CooldownAbility(1, 2)); // Кд на 1 ход
 
         isAbilityHighlighted = false;
     }
@@ -170,8 +176,11 @@ public class AbilitiesPanelController : MonoBehaviour
                 Debug.Log($"Нанесено {damage1} урона врагу {enemy.persData.name}");
                 ResetEnemyLights();
             }
-            else
+            else // если выбрана 2ая способность
             {
+                // обновляем кулдаун на способность
+                activeCharacter.cooldownSecondSkill = 2;
+
                 if(enemies.Count == 1)
                 {
                     highlightedEnemies[0].TakeDamage(damage2);
@@ -220,15 +229,5 @@ public class AbilitiesPanelController : MonoBehaviour
         return enemies;
     }
 
-    // Метод для обработки кулдауна
-    private IEnumerator CooldownAbility(int abilityIndex, int cooldownTurns)
-    {
-        for (int i = 0; i < cooldownTurns; i++)
-        {
-            yield return new WaitUntil(() => turnManager.IsNewTurn); // Ждем начала нового хода
-        }
-
-        abilityButtons[abilityIndex].interactable = true;
-        Debug.Log($"Способность {abilityIndex + 1} снова доступна");
-    }
+    
 }
