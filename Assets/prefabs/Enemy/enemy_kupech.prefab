@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 1713476826419206576}
   m_Layer: 0
   m_Name: enemy_kupech
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -765,6 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persData:
+    gameObject: {fileID: 0}
     name: 
     hp: 0
     max_hp: 0
@@ -774,6 +775,7 @@ MonoBehaviour:
     speed: 0
     protection: 0
     magicProtection: 0
+    abilityIcons: []
     cooldownSecondSkill: 0
     hasTurn: 0
     isPlayer: 0

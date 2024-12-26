@@ -59,7 +59,16 @@ public class CharacterController : MonoBehaviour
         AbilitiesPanelController abilitiesPanel = FindObjectOfType<AbilitiesPanelController>();
         if (abilitiesPanel != null)
         {
-            abilitiesPanel.OnEnemyClicked(this);
+            if(this.gameObject.CompareTag("Enemy"))
+            {
+                abilitiesPanel.OnEnemyClicked(this);
+
+            }
+            else
+            {
+                abilitiesPanel.OnAllyClicked(this);
+
+            }
             Debug.Log("Инфа о выбранном враге отправлена");
         }
         Debug.Log("Выбран враг");
@@ -70,7 +79,7 @@ public class CharacterController : MonoBehaviour
 
     public void Heal(int heal_points/* на сколько захил*/)
     {
-        persData.hp = heal_points;
+        persData.hp += heal_points;
         if (persData.hp > persData.max_hp)
         {
             persData.hp = persData.max_hp;

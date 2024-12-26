@@ -115,8 +115,8 @@ public class AbilitiesPanelController : MonoBehaviour
                     HighlightLastTwoEnemies();
                     break;
                 case 1:
+                    HighlightAllAllies(); // Подсветка всех союзников для второго скилла
 
-                    
                     break;
 
             }
@@ -130,6 +130,37 @@ public class AbilitiesPanelController : MonoBehaviour
     public void ResetAbilityUsage()
     {
         isAbilityUsed = false; // Разрешаем использование способности
+    }
+
+    // Подсветка всех союзников (маг - хил)
+    private void HighlightAllAllies()
+    {
+        if (isAbilityHighlighted) return; // Если подсветка уже активирована, не делаем ничего
+        List<CharacterController> allies = GetAlliedControllers();
+
+        // Подсвечиваем всех союзников
+        foreach (var ally in allies)
+        {
+            ally.persData.SetLight(true);
+            ally.persData.SetLightColor(Color.green); // Зеленый цвет для подсветки
+            highlightedEnemies.Add(ally); // Добавляем союзника в список подсвеченных
+        }
+
+        isAbilityHighlighted = true;
+    }
+
+    // Метод для получения списка союзников
+    private List<CharacterController> GetAlliedControllers()
+    {
+        List<CharacterController> allies = new List<CharacterController>();
+        foreach (var character in FindObjectsOfType<CharacterController>())
+        {
+            if (character.persData.isPlayer) // Если это союзник (игрок)
+            {
+                allies.Add(character);
+            }
+        }
+        return allies;
     }
 
 
@@ -245,11 +276,7 @@ public class AbilitiesPanelController : MonoBehaviour
 
         CharacterController attackerCharacterController = turnManager.FindControllerByName(activeCharacter.name);
         attacker = attackerCharacterController.gameObject;
-        // Устанавливаем атакуемого(первого из выделенных врагов)
-        /*if (highlightedEnemies.Count > 0)
-        {
-            target = highlightedEnemies[0].gameObject;
-        }*/
+        
         
         //-----------------------------------------------------------
         int damage1 = activeCharacter.CalculateDamage();
@@ -281,6 +308,7 @@ public class AbilitiesPanelController : MonoBehaviour
                     if (enemies.Count == 1)
                     {
                         highlightedEnemies[0].TakeDamage(damage2);
+                        attackerCharacterController.TakeDamage(damage2 - 3);
                         Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
                     }
                     else
@@ -289,7 +317,7 @@ public class AbilitiesPanelController : MonoBehaviour
                         {
                             enm.TakeDamage(Random.RandomRange(damage1,damage2));
                         }
-                        
+                        attackerCharacterController.TakeDamage(damage1 - 3);
                         Debug.Log($"Нанесено {damage1} урона врагу ");
                         Debug.Log($"Нанесено {damage2} урона врагу ");
 
@@ -301,23 +329,53 @@ public class AbilitiesPanelController : MonoBehaviour
             else // если выбрана 2ая способность
             {
                 PlayAttackAnimation();
-
-                // обновляем кулдаун на способность
-                activeCharacter.cooldownSecondSkill = 2;
-
-                if(enemies.Count == 1)
+                if (activeCharacter._enemyType == basePers.enemyType.RoyalKnight) // если абилка рыцаря
                 {
-                    highlightedEnemies[0].TakeDamage(damage2);
-                    Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                    // обновляем кулдаун на способность
+                    activeCharacter.cooldownSecondSkill = 2;
+
+                    if (enemies.Count == 1)
+                    {
+                        highlightedEnemies[0].TakeDamage(damage2);
+                        Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                    }
+                    else
+                    {
+                        highlightedEnemies[0].TakeDamage(damage1);
+                        highlightedEnemies[1].TakeDamage(damage2);
+                        Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                        Debug.Log($"Нанесено {damage2} урона врагу {highlightedEnemies[1].persData.name}");
+
+                    }
                 }
                 else
                 {
-                    highlightedEnemies[0].TakeDamage(damage1);
-                    highlightedEnemies[1].TakeDamage(damage2);
-                    Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
-                    Debug.Log($"Нанесено {damage2} урона врагу {highlightedEnemies[1].persData.name}");
+                    target = enemy.gameObject;
 
+                    // Сохраняем начальные позиции и повороты
+                    originalAttackerPos = attacker.transform.position;
+                    originalTargetPos = target.transform.position;
+                    originalAttackerRotation = attacker.transform.rotation;
+                    originalTargetRotation = target.transform.rotation;
+
+                    int healAmount = 5;
+
+                    // Лечим выбранного союзника
+                    enemy.Heal(healAmount);
+                    Debug.Log($"Лечим {healAmount} здоровья союзника {enemy.persData.name}");
+
+                    // Сбрасываем подсветку после применения способности
+                    ResetEnemyLights();
+
+                    // Устанавливаем кулдаун на второй скилл
+                    activeCharacter.cooldownSecondSkill = 2;
+
+                    // Отмечаем, что способность использована
+                    isAbilityUsed = true;
+                    abilitySelected = false;
+                    isAbilityHighlighted = false;
                 }
+                    
                 // Сбрасываем подсветку после применения способности
                 ResetEnemyLights();
                 /*foreach (var highlightedEnemy in highlightedEnemies)
@@ -337,7 +395,39 @@ public class AbilitiesPanelController : MonoBehaviour
     }
 
 
+    // Метод для обработки клика по союзнику
+    public void OnAllyClicked(CharacterController ally)
+    {
+        basePers activeCharacter = turnManager.GetActiveCharacter();
 
+        if (abilitySelected && highlightedEnemies.Contains(ally))
+        {
+            target = ally.gameObject;
+
+            // Сохраняем начальные позиции и повороты
+            originalAttackerPos = attacker.transform.position;
+            originalTargetPos = target.transform.position;
+            originalAttackerRotation = attacker.transform.rotation;
+            originalTargetRotation = target.transform.rotation;
+
+            int healAmount = 5;
+
+            // Лечим выбранного союзника
+            ally.Heal(healAmount);
+            Debug.Log($"Лечим {healAmount} здоровья союзника {ally.persData.name}");
+
+            // Сбрасываем подсветку после применения способности
+            ResetEnemyLights();
+
+            // Устанавливаем кулдаун на второй скилл
+            activeCharacter.cooldownSecondSkill = 2;
+
+            // Отмечаем, что способность использована
+            isAbilityUsed = true;
+            abilitySelected = false;
+            isAbilityHighlighted = false;
+        }
+    }
 
 
     // Метод для запуска анимации атаки

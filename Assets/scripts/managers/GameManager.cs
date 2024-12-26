@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 
 
 
-
+    
 
     private void FindCharacters()
     {
@@ -207,7 +207,7 @@ public class GameManager : MonoBehaviour
             int aliveEnemies = 0;
             foreach (var enemy in enemies)
             {
-                if (enemy != null)  // Здесь проверяется, жив ли враг
+                if (enemy != null)  // Проверяем, жив ли враг
                 {
                     aliveEnemies++;
                 }
@@ -222,28 +222,29 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Игрок победил!");
                 HealAllPlayers(); // Исцеляем всех игроков
                 EndFight();
-                if(battleCounter == 1) // при победе в первой битве
+
+                // После первой победы начинаем второй бой
+                if (battleCounter == 1)
                 {
                     spawnManager.spawnMag();
-                    yield return StartCoroutine(SecondDialogueSequence()); // Начинаем новый диалог
+                    yield return StartCoroutine(SecondDialogueSequence()); // Новый диалог после первой победы
 
                     yield return new WaitForSeconds(1);
                     yield return StartCoroutine(fadeInOut.FadeOut());
                     yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
-                    
-                    spawnManager.SpawnEnemyCharacters();
+
+                    spawnManager.SpawnEnemyCharacters(); // Спавним врагов
                     abilitiesPanel.SetActive(true);
                     StartCoroutine(FocusCameraOnBattle());
                     isFight = true;
-                    
+
                     yield return new WaitForSeconds(1);
                     yield return StartCoroutine(fadeInOut.FadeIn());
 
-
-
-                    //StartCoroutine(CheckBattleOutcome());
-
+                    // После второго боя снова проверяем исход
+                    yield return StartCoroutine(CheckBattleOutcome()); // Повторная проверка после второго боя
                 }
+
                 yield break; // Выходим из проверки
             }
 
@@ -254,7 +255,6 @@ public class GameManager : MonoBehaviour
                 yield return new WaitForSeconds(2);
                 losePanel.SetActive(true);
                 EndFight();
-                //yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
                 yield break; // Выходим из проверки
             }
         }
@@ -283,6 +283,8 @@ public class GameManager : MonoBehaviour
     
     private void Update()
     {
+        FindCharacters();
+
         if (isFight)
         {
             UpdateCharacterLists();

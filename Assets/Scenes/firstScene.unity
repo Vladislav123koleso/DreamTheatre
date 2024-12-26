@@ -4246,6 +4246,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters: []
+  attacker: {fileID: 0}
+  target: {fileID: 0}
+  animationDuration: 0.4
+  moveDistance: 0.5
+  rotationAngle: 10
 --- !u!114 &1831985674
 MonoBehaviour:
   m_ObjectHideFlags: 0
