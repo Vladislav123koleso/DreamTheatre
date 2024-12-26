@@ -222,6 +222,7 @@ public class GameManager : MonoBehaviour
                     yield return StartCoroutine(fadeInOut.FadeOut());
                     yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
                     
+                    spawnManager.SpawnEnemyCharacters();
                     abilitiesPanel.SetActive(true);
                     StartCoroutine(FocusCameraOnBattle());
                     isFight = true;
