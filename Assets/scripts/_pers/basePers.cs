@@ -10,6 +10,8 @@ using Unity.Mathematics;
 [Serializable]
 public class basePers
 {
+    public GameObject gameObject;
+
     public string name;
 
     public int hp;//текущее хп
@@ -39,8 +41,9 @@ public class basePers
         None,
         Knight,
         Slave,
-        Vuchnik
-
+        Vuchnik,
+        Mag,
+        RoyalKnight
 
     }
 
@@ -59,7 +62,7 @@ public class basePers
         }
     }
 
-    public basePers(string name, int hp, int speed, int protection, enemyType _enemyType, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2, Sprite[] ability = null)
+    public basePers( string name, int hp, int speed, int protection, enemyType _enemyType, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2, Sprite[] ability = null)
     {
         this.name = name; 
         this.hp = hp; 
@@ -75,6 +78,8 @@ public class basePers
         this.isPlayer = isPlayer;
         this._enemyType = _enemyType;
         this.abilityIcons = ability;
+
+        gameObject = this.gameObject;
     }
 
 

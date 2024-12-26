@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class AbilitiesPanelController : MonoBehaviour
 {
@@ -23,7 +25,20 @@ public class AbilitiesPanelController : MonoBehaviour
     public Image slot1;
     public Image slot2;
 
+    //-------------------------------------------
+    [SerializeField]
+    private GameObject attacker; // Атакующий персонаж
+    [SerializeField]
+    private GameObject target;   // Цель 
+    public float animationDuration = 0.5f; // Длительность анимации
+    public float moveDistance = 0.5f; // Сколько на сколько сближаются персонажи (можно настроить)
+    public float rotationAngle = -10f; // Угол наклона персонажей
 
+    private Vector3 originalAttackerPos;
+    private Vector3 originalTargetPos;
+    private Quaternion originalAttackerRotation;
+    private Quaternion originalTargetRotation;
+    //---------------------------------------
     private void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
@@ -74,17 +89,39 @@ public class AbilitiesPanelController : MonoBehaviour
 
         enemies = GetEnemyControllers();
         Debug.Log($"Выбрана способность {abilityIndex + 1}");
-        switch (abilityIndex)
+
+        // Проверка, типа активного персонажа
+        if(activeCharacter._enemyType == basePers.enemyType.RoyalKnight)
         {
-            case 0:
-                HighlightFirstTwoEnemies();
-                break;
-            case 1:
-                
-                DamageFirstTwoEnemies();
-                break;
-                // Здесь остальные способности
+            // если рыцарь
+            switch (abilityIndex)
+            {
+                case 0:
+                    HighlightFirstTwoEnemies();
+                    break;
+                case 1:
+
+                    DamageFirstTwoEnemies();
+                    break;
+
+            }
         }
+        else if(activeCharacter._enemyType == basePers.enemyType.Mag)
+        {
+            // если маг
+            switch (abilityIndex)
+            {
+                case 0:
+                    HighlightLastTwoEnemies();
+                    break;
+                case 1:
+
+                    
+                    break;
+
+            }
+        }
+        
 
         
     }
@@ -96,7 +133,7 @@ public class AbilitiesPanelController : MonoBehaviour
     }
 
 
-    // Подсветка первого врага
+    // Подсветка первого врага (рыцарь)
     private void HighlightFirstTwoEnemies()
     {
         if (isAbilityHighlighted) return; // Если подсветка уже активирована, не делаем ничего
@@ -119,6 +156,41 @@ public class AbilitiesPanelController : MonoBehaviour
         {
             // Подсвечиваем двух врагов
             for (int i = enemiesCount - 2; i < enemiesCount; i++)
+            {
+                enemies[i].persData.SetLight(true);
+                enemies[i].persData.SetLightColor(Color.red);
+                highlightedEnemies.Add(enemies[i]);
+            }
+
+        }
+
+        isAbilityHighlighted = true;
+
+    }
+
+    // Подсветка последних двух врага (маг)
+    private void HighlightLastTwoEnemies()
+    {
+        if (isAbilityHighlighted) return; // Если подсветка уже активирована, не делаем ничего
+        if (enemies.Count == 0)
+        {
+
+        }
+        /*List<CharacterController> *//*enemies = GetEnemyControllers();*/
+        int enemiesCount = enemies.Count;
+
+        // Проверяем, что врагов достаточно для подсветки
+        if (enemiesCount == 0) return;
+        if (enemiesCount == 1)
+        {
+            enemies[0].persData.SetLight(true);
+            enemies[0].persData.SetLightColor(Color.red);
+            highlightedEnemies.Add(enemies[0]);
+        }
+        else
+        {
+            // Подсвечиваем двух врагов
+            for (int i = 0; i < 2; i++)
             {
                 enemies[i].persData.SetLight(true);
                 enemies[i].persData.SetLightColor(Color.red);
@@ -170,19 +242,66 @@ public class AbilitiesPanelController : MonoBehaviour
     public void OnEnemyClicked(CharacterController enemy)
     {
         basePers activeCharacter = turnManager.GetActiveCharacter();
+
+        CharacterController attackerCharacterController = turnManager.FindControllerByName(activeCharacter.name);
+        attacker = attackerCharacterController.gameObject;
+        // Устанавливаем атакуемого(первого из выделенных врагов)
+        /*if (highlightedEnemies.Count > 0)
+        {
+            target = highlightedEnemies[0].gameObject;
+        }*/
+        
+        //-----------------------------------------------------------
         int damage1 = activeCharacter.CalculateDamage();
         int damage2 = activeCharacter.CalculateDamage();
 
         if (abilitySelected && highlightedEnemies.Contains(enemy))
         {
+            target = enemy.gameObject;
+
+            // Сохраняем начальные позиции и повороты
+            originalAttackerPos = attacker.transform.position;
+            originalTargetPos = target.transform.position;
+            originalAttackerRotation = attacker.transform.rotation;
+            originalTargetRotation = target.transform.rotation;
+
+
             if (selectedAbilityIndex == 0) // Если выбрана первая способность
             {
-                enemy.TakeDamage(damage1);
-                Debug.Log($"Нанесено {damage1} урона врагу {enemy.persData.name}");
-                ResetEnemyLights();
+                PlayAttackAnimation();
+
+                if (activeCharacter._enemyType == basePers.enemyType.RoyalKnight) // если абилка рыцаря
+                {
+                    enemy.TakeDamage(damage1);
+                    Debug.Log($"Нанесено {damage1} урона врагу {enemy.persData.name}");
+                    ResetEnemyLights();
+                }
+                else if (activeCharacter._enemyType == basePers.enemyType.Mag) // если абилка мага
+                {
+                    if (enemies.Count == 1)
+                    {
+                        highlightedEnemies[0].TakeDamage(damage2);
+                        Debug.Log($"Нанесено {damage1} урона врагу {highlightedEnemies[0].persData.name}");
+                    }
+                    else
+                    {
+                        foreach(var enm in highlightedEnemies)
+                        {
+                            enm.TakeDamage(Random.RandomRange(damage1,damage2));
+                        }
+                        
+                        Debug.Log($"Нанесено {damage1} урона врагу ");
+                        Debug.Log($"Нанесено {damage2} урона врагу ");
+
+                    }
+                    // Сбрасываем подсветку после применения способности
+                    ResetEnemyLights();
+                }
             }
             else // если выбрана 2ая способность
             {
+                PlayAttackAnimation();
+
                 // обновляем кулдаун на способность
                 activeCharacter.cooldownSecondSkill = 2;
 
@@ -216,6 +335,76 @@ public class AbilitiesPanelController : MonoBehaviour
             isAbilityHighlighted = false;
         }
     }
+
+
+
+
+
+    // Метод для запуска анимации атаки
+    public void PlayAttackAnimation()
+    {
+        StartCoroutine(AttackAnimationCoroutine());
+    }
+    // Корутина для анимации атаки
+    private IEnumerator AttackAnimationCoroutine()
+    {
+        float elapsedTime = 0f;
+
+        // Анимируем движение и поворот атакующего
+        Vector3 attackerTargetPos = target.transform.position + new Vector3(-moveDistance, 0, 0);
+        Quaternion attackerTargetRotation = Quaternion.Euler(0, 0, rotationAngle);
+
+        // Анимируем движение и наклон только атакующего
+        while (elapsedTime < animationDuration)
+        {
+            float t = elapsedTime / animationDuration;
+
+            // Движение атакующего
+            attacker.transform.position = Vector3.Lerp(originalAttackerPos, attackerTargetPos, t);
+
+            // Наклон атакующего
+            attacker.transform.rotation = Quaternion.Lerp(originalAttackerRotation, attackerTargetRotation, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Завершаем анимацию и возвращаем атакующего на исходную позицию
+        attacker.transform.position = attackerTargetPos;
+        attacker.transform.rotation = attackerTargetRotation;
+
+        // Пауза на 0.5 секунды, чтобы анимация закончилась
+        yield return new WaitForSeconds(0.5f);
+
+        // Возвращаем атакующего в начальную позицию и поворот
+        elapsedTime = 0f;
+        while (elapsedTime < animationDuration)
+        {
+            float t = elapsedTime / animationDuration;
+
+            // Возврат атакующего на исходную позицию
+            attacker.transform.position = Vector3.Lerp(attackerTargetPos, originalAttackerPos, t);
+
+            // Возврат в исходный поворот
+            attacker.transform.rotation = Quaternion.Lerp(attackerTargetRotation, originalAttackerRotation, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Финальный сброс атакующего на исходные позиции и повороты
+        attacker.transform.position = originalAttackerPos;
+        attacker.transform.rotation = originalAttackerRotation;
+    }
+
+
+
+
+
+
+
+
+
 
 
 

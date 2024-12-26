@@ -120,7 +120,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     }
     basePers CreateRandomMag(int number)
     {
-        return new basePers("Mag" + number, 50, 7, 2, basePers.enemyType.None, false, true, 14, 5, 20, 5, abilityIconsMag);
+        return new basePers("Mag" + number, 50, 7, 2, basePers.enemyType.Mag, false, true, 14, 5, 20, 5, abilityIconsMag);
     }
     basePers CreateRandomVuchnikEnemy(int numberEnemy)
     {

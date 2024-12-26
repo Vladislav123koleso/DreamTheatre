@@ -2915,6 +2915,11 @@ MonoBehaviour:
   isAbilityUsed: 0
   slot1: {fileID: 543169224}
   slot2: {fileID: 961939453}
+  attacker: {fileID: 0}
+  target: {fileID: 0}
+  animationDuration: 0.5
+  moveDistance: 0.5
+  rotationAngle: -10
 --- !u!1 &1158486023
 GameObject:
   m_ObjectHideFlags: 0

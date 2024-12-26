@@ -751,7 +751,7 @@ MonoBehaviour:
     hasTurn: 0
     isPlayer: 0
     persLight: {fileID: 4632080755652323992}
-    _enemyType: 0
+    _enemyType: 4
   animator: {fileID: 544791231781902456}
   spritePers: {fileID: 4632080756191395521}
 --- !u!61 &7836073338101772797

@@ -156,14 +156,14 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     {
         return characters.FirstOrDefault(c => c.hasTurn); // Находим персонажа, у которого включен флаг hasTurn
     }
-
+    
 
 
 
 
 
     // Метод для поиска CharacterController по имени
-    private CharacterController FindControllerByName(string name)
+    public CharacterController FindControllerByName(string name)
     {
         // Получаем всех врагов на сцене
         CharacterController[] allControllers = FindObjectsOfType<CharacterController>();
