@@ -11,6 +11,25 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     public static TurnManager Instance { get; private set; }
 
 
+
+
+    [SerializeField]
+    private GameObject attacker; // Атакующий персонаж
+    [SerializeField]
+    private GameObject target;   // Цель 
+    public float animationDuration = 0.5f; // Длительность анимации
+    public float moveDistance = 0.5f; // Сколько на сколько сближаются персонажи (можно настроить)
+    public float rotationAngle = -10f; // Угол наклона персонажей
+
+    private Vector3 originalAttackerPos;
+    private Vector3 originalTargetPos;
+    private Quaternion originalAttackerRotation;
+    private Quaternion originalTargetRotation;
+
+
+
+
+
     private void Awake()
     {
         // Проверяем, чтобы экземпляр был единственным
@@ -67,13 +86,18 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
             Debug.Log("ход персонажа: " + currentCharacter.name);
             Debug.Log("ожидания нажатия кнопки конца хода");
         }
-        else
+        else // атакует враг
         {
-            if(currentCharacter._enemyType == basePers.enemyType.Knight)
+            if(currentCharacter._enemyType == basePers.enemyType.Knight || 
+                currentCharacter._enemyType == basePers.enemyType.Slave || 
+                currentCharacter._enemyType == basePers.enemyType.Vuchnik)
             {
                 Debug.Log("ход врага: " + currentCharacter.name + " тип врага: " + currentCharacter._enemyType);
                 // атака рыцаря врага
                 CharacterController currentCharctContrl = FindControllerByName(currentCharacter.name);
+
+                attacker = currentCharctContrl.gameObject;
+
                 // Создаем список целей (персонажей игрока)
                 List<CharacterController> playerTargets = new List<CharacterController>();
 
@@ -97,6 +121,16 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
                 {
                     int randomIndex = Random.Range(0, playerTargets.Count); // Выбираем случайный индекс
                     CharacterController randomTarget = playerTargets[randomIndex]; // Получаем случайную цель
+                    
+                    target = randomTarget.gameObject;
+                    
+                    // Сохраняем начальные позиции и повороты
+                    originalAttackerPos = attacker.transform.position;
+                    originalTargetPos = target.transform.position;
+                    originalAttackerRotation = attacker.transform.rotation;
+                    originalTargetRotation = target.transform.rotation;
+
+                    PlayAttackAnimation();
 
                     // Атакуем выбранную цель
                     randomTarget.TakeDamage(currentCharctContrl.dmgEnemyKnight());
@@ -108,7 +142,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
                 }
             }
             StartCoroutine(CoroTurnEnemy());
-            
+
         }
     }
 
@@ -145,7 +179,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     // метол имитации хода врага
     private IEnumerator CoroTurnEnemy()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         Debug.Log("Враг походил");
         EndTurn();
     }
@@ -156,7 +190,76 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
     {
         return characters.FirstOrDefault(c => c.hasTurn); // Находим персонажа, у которого включен флаг hasTurn
     }
-    
+
+
+
+
+
+
+
+    // Метод для запуска анимации атаки
+    public void PlayAttackAnimation()
+    {
+        StartCoroutine(AttackAnimationCoroutine());
+    }
+    // Корутина для анимации атаки
+    private IEnumerator AttackAnimationCoroutine()
+    {
+        float elapsedTime = 0f;
+
+        // Анимируем движение и поворот атакующего
+        Vector3 attackerTargetPos = target.transform.position + new Vector3(-moveDistance, 0, 0);
+        Quaternion attackerTargetRotation = Quaternion.Euler(0, 0, rotationAngle);
+
+        // Анимируем движение и наклон только атакующего
+        while (elapsedTime < animationDuration)
+        {
+            float t = elapsedTime / animationDuration;
+
+            // Движение атакующего
+            attacker.transform.position = Vector3.Lerp(originalAttackerPos, attackerTargetPos, t);
+
+            // Наклон атакующего
+            attacker.transform.rotation = Quaternion.Lerp(originalAttackerRotation, attackerTargetRotation, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Завершаем анимацию и возвращаем атакующего на исходную позицию
+        attacker.transform.position = attackerTargetPos;
+        attacker.transform.rotation = attackerTargetRotation;
+
+        // Пауза на 0.5 секунды, чтобы анимация закончилась
+        yield return new WaitForSeconds(0.5f);
+
+        // Возвращаем атакующего в начальную позицию и поворот
+        elapsedTime = 0f;
+        while (elapsedTime < animationDuration)
+        {
+            float t = elapsedTime / animationDuration;
+
+            // Возврат атакующего на исходную позицию
+            attacker.transform.position = Vector3.Lerp(attackerTargetPos, originalAttackerPos, t);
+
+            // Возврат в исходный поворот
+            attacker.transform.rotation = Quaternion.Lerp(attackerTargetRotation, originalAttackerRotation, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Финальный сброс атакующего на исходные позиции и повороты
+        attacker.transform.position = originalAttackerPos;
+        attacker.transform.rotation = originalAttackerRotation;
+    }
+
+
+
+
+
+
+
 
 
 
