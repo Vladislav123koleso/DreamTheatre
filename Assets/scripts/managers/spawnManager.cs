@@ -111,7 +111,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     }
     basePers CreateRandomTraderEnemy(int numberEnemy)
     {
-        return new basePers("EnemyTrader" + numberEnemy, Random.Range(15, 20), Random.Range(2, 5), Random.Range(5, 6), basePers.enemyType.Knight, false, false, 0, 3, 7, Random.Range(1, 4));
+        return new basePers("EnemyTrader" + numberEnemy, Random.Range(15, 20), Random.Range(2, 5), Random.Range(5, 6), basePers.enemyType.Slave, false, false, 0, 3, 7, Random.Range(1, 4));
     }
     basePers CreateRandomMag(int number)
     {

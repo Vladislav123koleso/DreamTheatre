@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
+using UnityEngine.UI;
 
 public class CharacterController : MonoBehaviour
 {
     public basePers persData;
 
-
-    
+    public Animator animator;
+    public SpriteRenderer spritePers;
+    private bool isDead = false;
 
 
     // Метод для инициализации персонажа с его данными
@@ -26,13 +28,30 @@ public class CharacterController : MonoBehaviour
         persData.hp -= damage;
         if (persData.hp <= 0)
         {
-            // Логика смерти персонажа
-            Debug.Log($"{persData.name} повержен!");
-            TurnManager.Instance.RemoveCharacter(persData);
-            Destroy(gameObject);
+            Die();
 
         }
     }
+
+
+            // Логика смерти персонажа
+    public void Die()
+    {
+        if (isDead) return; // Предотвращаем повторный вызов
+        isDead = true;
+
+        Color color = spritePers.color; 
+        color.a = 0f;             
+        spritePers.color = color;
+
+        Debug.Log($"{persData.name} повержен!");
+        TurnManager.Instance.RemoveCharacter(persData);
+        animator.SetTrigger("isDead"); // Устанавливаем триггер для анимации смерти
+
+        // Опционально: задержка перед удалением объекта
+        Destroy(gameObject, 1f);
+    }
+
 
     private void OnMouseDown()
     {

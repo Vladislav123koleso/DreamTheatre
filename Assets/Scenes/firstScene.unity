@@ -1330,10 +1330,10 @@ RectTransform:
   m_Father: {fileID: 183654639}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4434792, y: 0.88500005}
-  m_AnchorMax: {x: 0.5665625, y: 0.9607037}
-  m_AnchoredPosition: {x: -2.5, y: -0.13494873}
-  m_SizeDelta: {x: -0.7100067, y: 1.6799927}
+  m_AnchorMin: {x: 0.4434792, y: 0.88777786}
+  m_AnchorMax: {x: 0.609, y: 0.9607037}
+  m_AnchoredPosition: {x: 0.08000183, y: -1.6349487}
+  m_SizeDelta: {x: 4.449997, y: 4.68}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &511026162
 MonoBehaviour:
@@ -1404,15 +1404,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.85098046, g: 0.3137255, b: 0.27450982, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 234d36b5a3800154bbead0d04cad9e68, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3505,7 +3505,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041F\u0430\u0443\u0437\u0430"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
   m_sharedMaterial: {fileID: -4999927389322922136, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
@@ -3532,7 +3532,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 29.94
   m_fontSizeBase: 29.94
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4171,13 +4171,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1831747553}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.0435219, y: 0.07089996}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4265,7 +4265,7 @@ MonoBehaviour:
   magPrefab: {fileID: 4632080756191395520, guid: a65cb1770331d9a4f802f741258ab8c0, type: 3}
   enemyKnightPrefab: {fileID: 5967807657413916618, guid: 66b69f3828932a6499e360d2b64246fd, type: 3}
   enemyTraderPrefab: {fileID: 5967807657413916618, guid: 12b13b006aac40c4cba5a2e8caa98d6e, type: 3}
-  enemyVuchnikPrefab: {fileID: 0}
+  enemyVuchnikPrefab: {fileID: 5967807657413916618, guid: 21e19f3431f54e74cb33a01d93da5ca9, type: 3}
   mainPers: {fileID: 3685275753928370055, guid: e3753e53be1b9fc459031f03ee99ed5a, type: 3}
   gameManager: {fileID: 1831985675}
 --- !u!114 &1831985675
@@ -4429,15 +4429,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.85098046, g: 0.3137255, b: 0.27450982, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 5dc5bd41ab5199542a7bc961a9790118, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4723,7 +4723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041A\u043E\u043D\u0435\u0446 \u0425\u043E\u0434\u0430"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
   m_sharedMaterial: {fileID: -4999927389322922136, guid: e44ceadf9b0c2b444b1baaaa75481c08, type: 2}
@@ -4750,7 +4750,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 29.94
   m_fontSizeBase: 29.94
   m_fontWeight: 400
   m_enableAutoSizing: 1

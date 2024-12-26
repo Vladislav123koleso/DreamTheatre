@@ -204,10 +204,19 @@ public class GameManager : MonoBehaviour
     {
         while (isFight)
         {
+            int aliveEnemies = 0;
+            foreach (var enemy in enemies)
+            {
+                if (enemy != null)  // Здесь проверяется, жив ли враг
+                {
+                    aliveEnemies++;
+                }
+            }
+
             yield return new WaitForSeconds(1);
 
             // Проверка победы
-            if (enemies.Count == 0)
+            if (aliveEnemies == 0)
             {
                 battleCounter++;
                 Debug.Log("Игрок победил!");
@@ -232,7 +241,7 @@ public class GameManager : MonoBehaviour
 
 
 
-                    StartCoroutine(CheckBattleOutcome());
+                    //StartCoroutine(CheckBattleOutcome());
 
                 }
                 yield break; // Выходим из проверки
