@@ -744,6 +744,9 @@ MonoBehaviour:
     speed: 7
     protection: 2
     magicProtection: 14
+    abilityIcons:
+    - {fileID: 21300000, guid: 9eb1e26eb6d364d47bf59d16bb52dbc3, type: 3}
+    - {fileID: 21300000, guid: db65a84a49f83a74b906fef67f43aef4, type: 3}
     cooldownSecondSkill: 0
     hasTurn: 0
     isPlayer: 0

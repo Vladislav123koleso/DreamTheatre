@@ -62,7 +62,7 @@ public class TurnManager : MonoBehaviour // менеджер очередности ходов
         if (currentCharacter.isPlayer) // если персонаж игрока
         {
             FindObjectOfType<AbilitiesPanelController>().ResetAbilityUsage(); // —брос использовани€ способностей
-
+            FindObjectOfType<AbilitiesPanelController>().UpdateAbilityIcons(currentCharacter);
 
             Debug.Log("ход персонажа: " + currentCharacter.name);
             Debug.Log("ожидани€ нажати€ кнопки конца хода");

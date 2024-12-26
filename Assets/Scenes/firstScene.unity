@@ -2913,6 +2913,8 @@ MonoBehaviour:
   abilityButtons: []
   enemies: []
   isAbilityUsed: 0
+  slot1: {fileID: 543169224}
+  slot2: {fileID: 961939453}
 --- !u!1 &1158486023
 GameObject:
   m_ObjectHideFlags: 0
@@ -4268,6 +4270,10 @@ MonoBehaviour:
   enemyVuchnikPrefab: {fileID: 5967807657413916618, guid: 21e19f3431f54e74cb33a01d93da5ca9, type: 3}
   mainPers: {fileID: 3685275753928370055, guid: e3753e53be1b9fc459031f03ee99ed5a, type: 3}
   gameManager: {fileID: 1831985675}
+  abilityIconsKnight: []
+  abilityIconsMag:
+  - {fileID: 21300000, guid: 9eb1e26eb6d364d47bf59d16bb52dbc3, type: 3}
+  - {fileID: 21300000, guid: db65a84a49f83a74b906fef67f43aef4, type: 3}
 --- !u!114 &1831985675
 MonoBehaviour:
   m_ObjectHideFlags: 0

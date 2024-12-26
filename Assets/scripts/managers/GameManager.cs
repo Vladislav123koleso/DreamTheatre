@@ -263,6 +263,11 @@ public class GameManager : MonoBehaviour
     private void EndFight()
     {
         isFight = false;
+        //проходим по списку врагов и удал€ем их со сцены
+        foreach(var enemy in enemies)
+        {
+            Destroy(enemy);
+        }
         abilitiesPanel.SetActive(false); // —крываем панель способностей
         ResetCameraToDefault(); // ¬озвращаем камеру к стандартному состо€нию
     }

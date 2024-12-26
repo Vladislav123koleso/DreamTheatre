@@ -23,6 +23,11 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
 
     public static spawnManager Instance { get; private set; }
 
+    // иконки персонажей
+    [Header("icons knight")]
+    public Sprite[] abilityIconsKnight;
+    [Header("icons mag")]
+    public Sprite[] abilityIconsMag;
     private void Start()
     {
         // «агружаем список персонажей из хаба
@@ -115,7 +120,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     }
     basePers CreateRandomMag(int number)
     {
-        return new basePers("Mag" + number, 50, 7, 2, basePers.enemyType.None, false, true, 14, 5, 20, 5);
+        return new basePers("Mag" + number, 50, 7, 2, basePers.enemyType.None, false, true, 14, 5, 20, 5, abilityIconsMag);
     }
     basePers CreateRandomVuchnikEnemy(int numberEnemy)
     {

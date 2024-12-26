@@ -21,9 +21,10 @@ public class basePers
     public int protection; // защита
     public int magicProtection; // магическая защита
 
+    public Sprite[] abilityIcons; // Массив иконок способностей
 
     public int cooldownSecondSkill; // кулдаун 2ого скилла
-
+    
     // сопротивления эффектам 
 
     //
@@ -58,7 +59,7 @@ public class basePers
         }
     }
 
-    public basePers(string name, int hp, int speed, int protection, enemyType _enemyType, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2)
+    public basePers(string name, int hp, int speed, int protection, enemyType _enemyType, bool hasTurn = false,bool isPlayer = false, int magicProtection = 0, int minDamage = 4, int maxDamage = 5, int critChance = 2, Sprite[] ability = null)
     {
         this.name = name; 
         this.hp = hp; 
@@ -73,6 +74,7 @@ public class basePers
         this.hasTurn = false; 
         this.isPlayer = isPlayer;
         this._enemyType = _enemyType;
+        this.abilityIcons = ability;
     }
 
 
@@ -127,6 +129,11 @@ public class basePers
     }
 
 
-
+    public Sprite GetAbilityIcon(int abilityIndex)
+    {
+        // Возвращаем соответствующую иконку способности по индексу
+        
+        return abilityIcons[abilityIndex];
+    }
 
 }

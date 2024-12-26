@@ -8,7 +8,7 @@ public class pauseLogic : MonoBehaviour
     public GameObject pausePanel;
     [SerializeField]
     private bool isPaused = false;
-
+    
 
     private void Start()
     {
@@ -54,15 +54,17 @@ public class pauseLogic : MonoBehaviour
 
     public void enablePausePanel()
     {
-        if(Time.timeScale != 0)
+        if(Time.timeScale == 0)
         {
-            Time.timeScale = 0;
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
         }
-        pausePanel.SetActive(!pausePanel.activeSelf);
+        //pausePanel.SetActive(!pausePanel.activeSelf);
     }
     public void backToMainMenu()
     {

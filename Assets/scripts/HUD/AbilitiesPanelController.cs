@@ -19,6 +19,11 @@ public class AbilitiesPanelController : MonoBehaviour
     [SerializeField]
     private bool isAbilityUsed = false; // Флаг для отслеживания использования способности за ход
 
+    // слоты для замены иконок абилок
+    public Image slot1;
+    public Image slot2;
+
+
     private void Start()
     {
         turnManager = FindObjectOfType<TurnManager>();
@@ -211,7 +216,36 @@ public class AbilitiesPanelController : MonoBehaviour
             isAbilityHighlighted = false;
         }
     }
-    
+
+
+
+
+    public void UpdateAbilityIcons(basePers activeCharacter)
+    {
+        // Обновляем иконки способностей в зависимости от активного персонажа
+
+        /*for (int i = 0; i < abilityButtons.Count; i++)
+        {
+            // Логика смены иконок
+            // В данном случае мы используем иконки из данных активного персонажа
+            // Вам нужно будет создать механизм для установки новых иконок для каждой способности.
+            Sprite abilityIcon = activeCharacter.GetAbilityIcon(i); // Предположим, что есть метод получения иконки способности
+            abilityButtons[i].GetComponent<Image>().sprite = abilityIcon;
+        }*/
+        Sprite abilityIcon1 = activeCharacter.GetAbilityIcon(0);
+        Sprite abilityIcon2 = activeCharacter.GetAbilityIcon(1);
+        slot1.sprite = abilityIcon1;
+        slot2.sprite = abilityIcon2;
+    }
+
+
+
+
+
+
+
+
+
 
     // Метод для получения списка врагов
     private List<CharacterController> GetEnemyControllers()
