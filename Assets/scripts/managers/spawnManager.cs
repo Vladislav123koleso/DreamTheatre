@@ -15,6 +15,7 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     public GameObject enemyKnightPrefab;
     public GameObject enemyTraderPrefab;
     public GameObject enemyVuchnikPrefab;
+    public GameObject enemyQueenPrefab;
 
     public GameObject mainPers;
     private List<basePers> playerCharacters; // список персонажей игрока
@@ -91,7 +92,19 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
             enemy2.GetComponent<CharacterController>().InitializeCharacter(CreateRandomVuchnikEnemy(2 + 1));
 
         }
+        else if(gameManager.battleCounter == 2)
+        {
+            // Создаем префаб врага 
+            GameObject queen = Instantiate(enemyQueenPrefab, enemySpawnPoints[2].position, Quaternion.identity);
+            GameObject enemy = Instantiate(enemyKnightPrefab, enemySpawnPoints[0].position, Quaternion.identity);
+            GameObject enemy1 = Instantiate(enemyKnightPrefab, enemySpawnPoints[1].position, Quaternion.identity);
 
+            // задаем уникальные параметры для врагов
+            queen.GetComponent<CharacterController>().InitializeCharacter(CreateRandomQueenEnemy(0 + 1));
+            enemy.GetComponent<CharacterController>().InitializeCharacter(CreateRandomKnightEnemy(1 + 1));
+            enemy1.GetComponent<CharacterController>().InitializeCharacter(CreateRandomKnightEnemy(2 + 1));
+
+        }
         /*for (int i = 0; i < enemySpawnPoints.Length; i++)
         {
             // Создаем префаб врага на каждой точке спауна
@@ -125,6 +138,10 @@ public class spawnManager : MonoBehaviour // менеджер спавна персонажей в начале
     basePers CreateRandomVuchnikEnemy(int numberEnemy)
     {
         return new basePers("EnemyVuchnik" + numberEnemy, Random.Range(15, 17), Random.Range(10, 15), Random.Range(2, 4), basePers.enemyType.Vuchnik, false, false, 2, 7, 13, Random.Range(6, 10));
+    }
+    basePers CreateRandomQueenEnemy(int numberEnemy)
+    {
+        return new basePers("EnemyBOSS" + numberEnemy, Random.Range(60, 80), Random.Range(10, 15), Random.Range(2, 4), basePers.enemyType.Vuchnik, false, false, 20, 10, 20, Random.Range(6, 10));
     }
 
     public void spawnMag()

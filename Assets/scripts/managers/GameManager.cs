@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
 
         // Находим все объекты с тегом "Enemy"
         GameObject[] foundEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        //
 
         // Добавляем их в список
         foreach (GameObject enemy in foundEnemies)
@@ -197,10 +198,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         //dialogueText.text = "";
     }
+    
+    private IEnumerator ThirdDialogueSequence()
+    {
+        yield return new WaitForSeconds(1);
+    }
 
-
-
-    public IEnumerator CheckBattleOutcome()
+        public IEnumerator CheckBattleOutcome()
     {
         while (isFight)
         {
@@ -244,7 +248,31 @@ public class GameManager : MonoBehaviour
                     // После второго боя снова проверяем исход
                     yield return StartCoroutine(CheckBattleOutcome()); // Повторная проверка после второго боя
                 }
+                else if(battleCounter == 2) // файт с боссом
+                {
+                    yield return StartCoroutine(ThirdDialogueSequence());
 
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(fadeInOut.FadeOut());
+                    yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
+
+                    spawnManager.SpawnEnemyCharacters(); // Спавним врагов
+
+
+                    abilitiesPanel.SetActive(true);
+                    StartCoroutine(FocusCameraOnBattle());
+                    isFight = true;
+
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(fadeInOut.FadeIn());
+
+                    // После боя снова проверяем исход
+                    yield return StartCoroutine(CheckBattleOutcome());
+                }
+                else if(battleCounter == 3)
+                {
+                    // панель победы и конец игры
+                }
                 yield break; // Выходим из проверки
             }
 
