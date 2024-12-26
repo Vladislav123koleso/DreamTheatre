@@ -22,7 +22,7 @@ public class basePers
     public int magicProtection; // магическая защита
 
 
-    public int cooldownSecondSkill;
+    public int cooldownSecondSkill; // кулдаун 2ого скилла
 
     // сопротивления эффектам 
 

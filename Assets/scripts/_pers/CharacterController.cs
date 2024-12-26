@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour
     public basePers persData;
 
 
-    public int cooldownSecondSkill;
+    
 
 
     // ћетод дл€ инициализации персонажа с его данными

@@ -302,6 +302,8 @@ GameObject:
   - component: {fileID: 1810889042}
   - component: {fileID: 8327565978361600439}
   - component: {fileID: 577622365927620564}
+  - component: {fileID: 7215629301820409635}
+  - component: {fileID: 5052653880543948812}
   m_Layer: 0
   m_Name: enemy_knight
   m_TagString: Enemy
@@ -400,6 +402,7 @@ MonoBehaviour:
     speed: 0
     protection: 0
     magicProtection: 0
+    cooldownSecondSkill: 0
     hasTurn: 0
     isPlayer: 0
     persLight: {fileID: 55541653}
@@ -442,6 +445,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77edc94a179ec214b92684eb73d73317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7215629301820409635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967807657413916618}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d6d486f678661428997b1ba9109351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoPanel: {fileID: 0}
+  infoTitle: {fileID: 0}
+  infoDescription: {fileID: 0}
+  hoverTime: 3
+  isHovering: 0
+  abilityName: 
+  abilityDescription: 
+  characterName: "\u0412\u0440\u0430\u0436\u0435\u0441\u043A\u0438\u0439 \u0440\u044B\u0446\u0430\u0440\u044C"
+--- !u!114 &5052653880543948812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5967807657413916618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7215629301820409635}
+          m_TargetAssemblyTypeName: HoverInfo, Assembly-CSharp
+          m_MethodName: OnHoverEnter
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 7215629301820409635}
+          m_TargetAssemblyTypeName: HoverInfo, Assembly-CSharp
+          m_MethodName: OnHoverExit
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &8962085396229018114
 GameObject:
   m_ObjectHideFlags: 0
