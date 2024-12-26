@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering;
-using UnityEditor.VersionControl;
+//using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private float defaultCameraSize; // Для хранения дефолтного размера камеры
 
     public GameObject losePanel;
+    public GameObject winPanel;
 
     public bool isFight = false; // для отслеживания активности боя
 
@@ -51,8 +52,8 @@ public class GameManager : MonoBehaviour
             "Глупцы и одиночки пропадали без вести, не оставляя после себя воспоминаний -- " +
             "на окраине города точно происходило что-то неописуемо странное. Ч" +
             "то-то, чего не должно было быть. Едва переехавшему в новый город молодому актёру явно не светило беспрепятственной славы.";
-        yield return StartCoroutine(TypeText(intro, introText));
-*/
+        yield return StartCoroutine(TypeText(intro, introText));*/
+
 
 
         // получаем списки персонажей игрока и врагов
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
         //---------------------------
         //здесь диалоговая система
         // Переход к диалогу персонажей
-        // yield return StartCoroutine(DialogueSequence());
+        yield return StartCoroutine(DialogueSequence());
 
 
         //----------------------------------
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(TypeText("королева: Этот вопрос необходимо разрешить к завтрашнему " +
             "рассвету. Соседнее королевство должно пасть.",introText));
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
         // Диалог 1 (Игрок и 1 из врагов)
         yield return StartCoroutine(TypeText("мысли: Королева сошла с ума, мы не можем развязать войну! Почему никто не возразил? Почему никто не понимает, насколько это опасно?", playerDialogueText));
         yield return new WaitForSeconds(1); // Пауза между диалогами
@@ -168,7 +169,7 @@ public class GameManager : MonoBehaviour
     {
         // Получаем персонажей для диалога
         GameObject player = players[0]; // Первый игрок
-        GameObject mag = players[0]; // 2ой игрок - маг
+        GameObject mag = players[1]; // 2ой игрок - маг
         GameObject enemy = enemies[0];  // Первый враг
 
         // Получаем канвасы персонажей (второй дочерний объект)
@@ -180,19 +181,18 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI playerDialogueText = playerCanvas.GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI magDialogueText = magCanvas.GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI enemyDialogueText = enemyCanvas.GetComponentInChildren<TextMeshProUGUI>();
-
-
-        // Диалог 1 (Игрок и 1 из врагов)
-        yield return StartCoroutine(TypeText("Игрок: Здесь что то надо придумать", playerDialogueText));
-        yield return new WaitForSeconds(1); // Пауза между диалогами
-
-        yield return StartCoroutine(TypeText("Маг: Да....", magDialogueText));
-        yield return new WaitForSeconds(1); // Пауза между диалогами
-
-        yield return StartCoroutine(TypeText("Игрок: что же будет дальше", playerDialogueText));
-        yield return new WaitForSeconds(1);
-
         
+        StartCoroutine(TypeText("", introText));
+
+        // Диалог 2
+        yield return StartCoroutine(TypeText("Маг: Я слышала, что ты восстал против королевы тирана, я помогу тебе.", magDialogueText));
+        yield return new WaitForSeconds(1); // Пауза между диалогами
+
+        yield return StartCoroutine(TypeText("Игрок: Вдвоем будет проще", playerDialogueText));
+        yield return new WaitForSeconds(1); // Пауза между диалогами
+
+        yield return StartCoroutine(TypeText("Враг: Стой. Дальше вы не пройдете.", enemyDialogueText));
+        yield return new WaitForSeconds(1);
 
         // Пауза после диалога
         yield return new WaitForSeconds(1);
@@ -201,8 +201,46 @@ public class GameManager : MonoBehaviour
     
     private IEnumerator ThirdDialogueSequence()
     {
+        // Получаем персонажей для диалога
+        GameObject player = players[0]; // Первый игрок
+        GameObject mag = players[1]; // 2ой игрок - маг
+        GameObject enemy = enemies[0];  // Первый враг
+        GameObject boss = enemies[2];  // Королева
+
+        // Получаем канвасы персонажей (второй дочерний объект)
+        Transform playerCanvas = player.transform.GetChild(1); // Канвас игрока
+        Transform magCanvas = mag.transform.GetChild(1); // Канвас игрока
+        Transform enemyCanvas = enemy.transform.GetChild(1);   // Канвас врага
+        Transform bossCanvas = boss.transform.GetChild(1);   // Канвас врага
+
+        // Получаем компоненты TextMeshProUGUI
+        TextMeshProUGUI playerDialogueText = playerCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI magDialogueText = magCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI enemyDialogueText = enemyCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI bossDialogueText = bossCanvas.GetComponentInChildren<TextMeshProUGUI>();
+
+        yield return StartCoroutine(TypeText("Королева: так так так. кто это ко мне пожаловал?", bossDialogueText));
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(TypeText("Королева: безумцы. Готовьтесь к смерти.", bossDialogueText));
+        yield return new WaitForSeconds(1);
+
+
         yield return new WaitForSeconds(1);
     }
+
+    private IEnumerator FourDialogueSequence()
+    {
+        GameObject player = players[0]; // Первый игрок
+        Transform playerCanvas = player.transform.GetChild(1);
+        TextMeshProUGUI playerDialogueText = playerCanvas.GetComponentInChildren<TextMeshProUGUI>();
+
+        yield return StartCoroutine(TypeText("Игрок: настал конец тирании безумной королевы", playerDialogueText));
+        yield return new WaitForSeconds(1); // Пауза между диалогами
+
+
+        yield return new WaitForSeconds(1);
+    }
+
 
         public IEnumerator CheckBattleOutcome()
     {
@@ -231,46 +269,56 @@ public class GameManager : MonoBehaviour
                 if (battleCounter == 1)
                 {
                     spawnManager.spawnMag();
-                    yield return StartCoroutine(SecondDialogueSequence()); // Новый диалог после первой победы
 
                     yield return new WaitForSeconds(1);
                     yield return StartCoroutine(fadeInOut.FadeOut());
-                    yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
-
+                    yield return StartCoroutine(TypeText("Голос во тьме: ты смог предолеть первое препятствие на своем пути, чтож, поздравляю. Но выживешь ли ты после встречи с личной стражей королевы?...", introText));
                     spawnManager.SpawnEnemyCharacters(); // Спавним врагов
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(fadeInOut.FadeIn());
+
+                    // Новый диалог после первой победы
+                    yield return StartCoroutine(SecondDialogueSequence());
+                    yield return new WaitForSeconds(1);
+
+                    yield return StartCoroutine(fadeInOut.FadeOut());
+                    yield return StartCoroutine(fadeInOut.FadeIn());
+                    yield return new WaitForSeconds(1);
+
                     abilitiesPanel.SetActive(true);
                     StartCoroutine(FocusCameraOnBattle());
                     isFight = true;
 
-                    yield return new WaitForSeconds(1);
-                    yield return StartCoroutine(fadeInOut.FadeIn());
 
                     // После второго боя снова проверяем исход
                     yield return StartCoroutine(CheckBattleOutcome()); // Повторная проверка после второго боя
                 }
                 else if(battleCounter == 2) // файт с боссом
                 {
-                    yield return StartCoroutine(ThirdDialogueSequence());
 
                     yield return new WaitForSeconds(1);
                     yield return StartCoroutine(fadeInOut.FadeOut());
-                    yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
+                    yield return StartCoroutine(TypeText("Голос во тьме: Ты так близок к своей цели...", introText));
 
                     spawnManager.SpawnEnemyCharacters(); // Спавним врагов
 
+                    yield return StartCoroutine(fadeInOut.FadeIn());
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(ThirdDialogueSequence());
 
                     abilitiesPanel.SetActive(true);
                     StartCoroutine(FocusCameraOnBattle());
                     isFight = true;
 
-                    yield return new WaitForSeconds(1);
-                    yield return StartCoroutine(fadeInOut.FadeIn());
 
                     // После боя снова проверяем исход
                     yield return StartCoroutine(CheckBattleOutcome());
                 }
                 else if(battleCounter == 3)
                 {
+                    yield return StartCoroutine(FourDialogueSequence());
+                    yield return new WaitForSeconds(2);
+                    winPanel.SetActive(true);
                     // панель победы и конец игры
                 }
                 yield break; // Выходим из проверки

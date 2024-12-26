@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5967807657413916628}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 179.886}
 --- !u!114 &55541653
 MonoBehaviour:
@@ -322,7 +322,7 @@ RectTransform:
   - {fileID: 4666247654844555216}
   - {fileID: 8173120570918672322}
   m_Father: {fileID: 5967807657413916628}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.04}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -424,9 +424,9 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3586999580182408597}
   - {fileID: 55541652}
   - {fileID: 2428875782989610990}
+  - {fileID: 3586999580182408597}
   - {fileID: 1171216888512366275}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persData:
+    gameObject: {fileID: 0}
     name: 
     hp: 0
     max_hp: 0
@@ -505,6 +506,7 @@ MonoBehaviour:
     speed: 0
     protection: 0
     magicProtection: 0
+    abilityIcons: []
     cooldownSecondSkill: 0
     hasTurn: 0
     isPlayer: 0
@@ -781,7 +783,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5967807657413916628}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1415092412819946635
 Animator:
