@@ -151,10 +151,10 @@ public class HoverInfo : MonoBehaviour
             {
                 CharacterController charControl = this.GetComponent<CharacterController>();
                 infoTitle.text = characterName;
-                infoDescription.text = $"HP: {charControl.persData.hp} \n " +
-                    $"Damage: {charControl.persData.minDamage} - {charControl.persData.maxDamage} \n" +
-                    $"Protection: {charControl.persData.protection} \n" +
-                    $"Speed: {charControl.persData.speed} \n";
+                infoDescription.text = $"ХП: {charControl.persData.hp} \n " +
+                    $"Урон: {charControl.persData.minDamage} - {charControl.persData.maxDamage} \n" +
+                    $"Защита: {charControl.persData.protection} \n" +
+                    $"Скорость: {charControl.persData.speed} \n";
             }
         }
     }

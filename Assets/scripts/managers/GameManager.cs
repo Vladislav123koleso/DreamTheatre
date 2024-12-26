@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public float typingSpeed = /*0.05f*/ 1f;     // Скорость появления текста
 
     public TextMeshProUGUI dialogueText;  // Для вывода текста диалога
-    
+    public spawnManager spawnManager;
 
     public List<GameObject> enemies = new List<GameObject>();
     public List<GameObject> players = new List<GameObject>();
@@ -167,19 +167,25 @@ public class GameManager : MonoBehaviour
     {
         // Получаем персонажей для диалога
         GameObject player = players[0]; // Первый игрок
+        GameObject mag = players[0]; // 2ой игрок - маг
         GameObject enemy = enemies[0];  // Первый враг
 
         // Получаем канвасы персонажей (второй дочерний объект)
         Transform playerCanvas = player.transform.GetChild(1); // Канвас игрока
+        Transform magCanvas = mag.transform.GetChild(1); // Канвас игрока
         Transform enemyCanvas = enemy.transform.GetChild(1);   // Канвас врага
 
         // Получаем компоненты TextMeshProUGUI
         TextMeshProUGUI playerDialogueText = playerCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI magDialogueText = magCanvas.GetComponentInChildren<TextMeshProUGUI>();
         TextMeshProUGUI enemyDialogueText = enemyCanvas.GetComponentInChildren<TextMeshProUGUI>();
 
 
         // Диалог 1 (Игрок и 1 из врагов)
-        yield return StartCoroutine(TypeText("Игрок: Я победил", playerDialogueText));
+        yield return StartCoroutine(TypeText("Игрок: Здесь что то надо придумать", playerDialogueText));
+        yield return new WaitForSeconds(1); // Пауза между диалогами
+
+        yield return StartCoroutine(TypeText("Маг: Да....", magDialogueText));
         yield return new WaitForSeconds(1); // Пауза между диалогами
 
         yield return StartCoroutine(TypeText("Игрок: что же будет дальше", playerDialogueText));
@@ -209,7 +215,24 @@ public class GameManager : MonoBehaviour
                 EndFight();
                 if(battleCounter == 1) // при победе в первой битве
                 {
+                    spawnManager.spawnMag();
                     yield return StartCoroutine(SecondDialogueSequence()); // Начинаем новый диалог
+
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(fadeInOut.FadeOut());
+                    yield return StartCoroutine(TypeText("Голос во тьме: sgjshkqworpoejkdsk", introText));
+                    
+                    abilitiesPanel.SetActive(true);
+                    StartCoroutine(FocusCameraOnBattle());
+                    isFight = true;
+                    
+                    yield return new WaitForSeconds(1);
+                    yield return StartCoroutine(fadeInOut.FadeIn());
+
+
+
+                    StartCoroutine(CheckBattleOutcome());
+
                 }
                 yield break; // Выходим из проверки
             }
@@ -218,9 +241,9 @@ public class GameManager : MonoBehaviour
             if (players.Count == 0)
             {
                 Debug.Log("Игрок проиграл!");
-                EndFight();
                 yield return new WaitForSeconds(2);
                 losePanel.SetActive(true);
+                EndFight();
                 //yield return StartCoroutine(TypeText("Вы проиграли... Конец игры.", introText));
                 yield break; // Выходим из проверки
             }
